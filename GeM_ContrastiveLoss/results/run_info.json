@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-31T14:33:34",
+  "python": "3.13.15",
+  "torch": "2.11.0+cu128",
+  "gpu": "Tesla T4",
+  "epochs": 10,
+  "episodes_per_epoch": 360,
+  "hyperparameters": {
+    "GEM_P_INIT": 3.0,
+    "GEM_EPS": 1e-06,
+    "GEM_P_FLOOR": 0.01,
+    "GEM_LR": 0.001,
+    "CON_COEF": 0.1,
+    "CON_TAU_INIT": 0.1,
+    "CON_TAU_MIN": 0.01,
+    "CON_TAU_MAX": 1.0,
+    "CON_TAU_LR": 0.001,
+    "gamma_init": 0.2,
+    "weights_lr": 0.005,
+    "backbone_lr": 0.0001,
+    "STAGE_WEIGHTS": [
+      1.0,
+      1.1,
+      1.2,
+      1.3,
+      1.4
+    ],
+    "DISTANCE_METRIC": "euclidean",
+    "USE_AMP": true,
+    "SEED": 42
+  },
+  "gem_placement": "Signed GeM replaces only the global average pooling that follows each of the 5 Self_Attn modules (input: y = gamma*attn(x) + x, support and query), before prototypes and Euclidean distance. pooled = GeM_p(max(y,0)) - GeM_p(max(-y,0)); p=1 equals GAP.",
+  "imagenet_pretrained_all_configs": true,
+  "process_rss_gb_at_report": 3.33,
+  "eval_protocol": {
+    "episode_identity": "BLAKE2b digest of support+query pixels and labels, exact equality across configs",
+    "val_episodes": 600,
+    "test_episodes": 600,
+    "ci": "1.96*std/sqrt(n) over per-episode accuracy",
+    "bench_warmup": 10,
+    "bench_episodes": 100,
+    "inference_precision": "fp32",
+    "note": "GPU memory = torch.cuda.max_memory_allocated; GFLOPs count conv/matmul only"
+  }
+}

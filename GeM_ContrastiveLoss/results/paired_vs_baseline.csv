@@ -1,0 +1,7 @@
+config,label,setting,mean_diff_vs_baseline,ci95,ci_excludes_zero,same_episodes_verified
+gem,2. GeM only,5-way 1-shot,-1.5311110764741898,0.43756794985300507,True,True
+gem,2. GeM only,5-way 5-shot,0.8222222129503886,0.2774114423318898,True,True
+contrastive,3. Contrastive only,5-way 1-shot,-0.17111110190550485,0.25534282395368035,False,True
+contrastive,3. Contrastive only,5-way 5-shot,0.024444331725438435,0.18539621370548956,False,True
+gem_contrastive,4. GeM + Contrastive,5-way 1-shot,-2.860000063975652,0.4579511934377776,True,True
+gem_contrastive,4. GeM + Contrastive,5-way 5-shot,0.4444444179534912,0.2623252145216819,True,True

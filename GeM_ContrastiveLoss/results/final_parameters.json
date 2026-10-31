@@ -1,0 +1,189 @@
+{
+  "_gem_placement": "Signed GeM replaces only the global average pooling that follows each of the 5 Self_Attn modules (input: y = gamma*attn(x) + x, support and query), before prototypes and Euclidean distance. pooled = GeM_p(max(y,0)) - GeM_p(max(-y,0)); p=1 equals GAP.",
+  "baseline": {
+    "tested_model_best_val_checkpoint": {
+      "stage_w1": 0.3595685064792633,
+      "stage_w2": 0.5655524134635925,
+      "stage_w3": 0.4699438214302063,
+      "stage_w4": 0.43209925293922424,
+      "stage_w5": 1.0521975755691528,
+      "gamma1": 0.3002951145172119,
+      "gamma2": 1.0995458364486694
+    },
+    "end_of_training_epoch_10": {
+      "stage_w1": -0.08843564242124557,
+      "stage_w2": 0.05084027349948883,
+      "stage_w3": -0.1992761641740799,
+      "stage_w4": -0.3861689269542694,
+      "stage_w5": 1.530844807624817,
+      "gamma1": 0.8168923258781433,
+      "gamma2": 1.9311593770980835
+    },
+    "best_epoch": 1,
+    "gem_activation_diagnostics_all_stages_all_test_batches": null
+  },
+  "gem": {
+    "tested_model_best_val_checkpoint": {
+      "stage_w1": 0.2345999926328659,
+      "stage_w2": 0.30980437994003296,
+      "stage_w3": 0.1795411854982376,
+      "stage_w4": 0.09396781772375107,
+      "stage_w5": 1.0621070861816406,
+      "gamma1": 0.11061692237854004,
+      "gamma2": -0.3729906380176544,
+      "gem_p1": 2.920677423477173,
+      "gem_p2": 2.882286310195923,
+      "gem_p3": 2.8952200412750244,
+      "gem_p4": 2.8718435764312744,
+      "gem_p5": 2.9540634155273438
+    },
+    "end_of_training_epoch_10": {
+      "stage_w1": -0.14668461680412292,
+      "stage_w2": -0.03447085991501808,
+      "stage_w3": -0.5551648736000061,
+      "stage_w4": -1.27841055393219,
+      "stage_w5": 1.8509098291397095,
+      "gamma1": -0.31172725558280945,
+      "gamma2": -0.8853225111961365,
+      "gem_p1": 2.914088249206543,
+      "gem_p2": 2.8729922771453857,
+      "gem_p3": 2.9279732704162598,
+      "gem_p4": 3.0103111267089844,
+      "gem_p5": 3.2071452140808105
+    },
+    "best_epoch": 1,
+    "gem_activation_diagnostics_all_stages_all_test_batches": {
+      "stage_1": {
+        "n_activations": 3048192000,
+        "frac_negative": 0.1419031087936718,
+        "frac_abs_below_eps": 1.1278817082388512e-06,
+        "negative_abs_mass_share": 0.06424889614214203
+      },
+      "stage_2": {
+        "n_activations": 3048192000,
+        "frac_negative": 0.1747996838781809,
+        "frac_abs_below_eps": 2.5159176324850927e-06,
+        "negative_abs_mass_share": 0.040123990352205145
+      },
+      "stage_3": {
+        "n_activations": 1672704000,
+        "frac_negative": 0.2974615915308387,
+        "frac_abs_below_eps": 9.08170244107744e-06,
+        "negative_abs_mass_share": 0.08036978266440571
+      },
+      "stage_4": {
+        "n_activations": 995328000,
+        "frac_negative": 0.2723839407712834,
+        "frac_abs_below_eps": 1.0901933834876544e-05,
+        "negative_abs_mass_share": 0.08520460747579546
+      },
+      "stage_5": {
+        "n_activations": 497664000,
+        "frac_negative": 0.1795120965149177,
+        "frac_abs_below_eps": 1.3824588477366256e-06,
+        "negative_abs_mass_share": 0.03348948779921776
+      },
+      "all_stages": {
+        "n_activations": 9262080000,
+        "frac_negative": 0.19686551876036484,
+        "frac_abs_below_eps": 4.085151499447209e-06,
+        "negative_abs_mass_share": 0.05238751381504158
+      }
+    }
+  },
+  "contrastive": {
+    "tested_model_best_val_checkpoint": {
+      "stage_w1": 0.16187447309494019,
+      "stage_w2": 0.3819728195667267,
+      "stage_w3": 0.20741653442382812,
+      "stage_w4": 0.08544916659593582,
+      "stage_w5": 0.9030137658119202,
+      "gamma1": 0.5000026226043701,
+      "gamma2": 1.0383117198944092,
+      "con_tau": 0.07406580448150635
+    },
+    "end_of_training_epoch_10": {
+      "stage_w1": -0.2239033281803131,
+      "stage_w2": -0.2481534332036972,
+      "stage_w3": -0.5382047891616821,
+      "stage_w4": -1.2267155647277832,
+      "stage_w5": 1.021860957145691,
+      "gamma1": 1.7470992803573608,
+      "gamma2": 1.9654796123504639,
+      "con_tau": 0.07613014429807663
+    },
+    "best_epoch": 1,
+    "gem_activation_diagnostics_all_stages_all_test_batches": null
+  },
+  "gem_contrastive": {
+    "tested_model_best_val_checkpoint": {
+      "stage_w1": 0.07931315153837204,
+      "stage_w2": 0.16390258073806763,
+      "stage_w3": 0.08368709683418274,
+      "stage_w4": 0.039405494928359985,
+      "stage_w5": 0.9307082295417786,
+      "gamma1": 0.4619009494781494,
+      "gamma2": 0.40811461210250854,
+      "gem_p1": 2.939084053039551,
+      "gem_p2": 2.8735008239746094,
+      "gem_p3": 2.843522548675537,
+      "gem_p4": 2.7933573722839355,
+      "gem_p5": 2.9376795291900635,
+      "con_tau": 0.06955816596746445
+    },
+    "end_of_training_epoch_10": {
+      "stage_w1": -0.24677921831607819,
+      "stage_w2": -0.26665735244750977,
+      "stage_w3": -0.5902725458145142,
+      "stage_w4": -1.123085618019104,
+      "stage_w5": 1.3440673351287842,
+      "gamma1": 1.2761183977127075,
+      "gamma2": 1.2839127779006958,
+      "gem_p1": 3.0891754627227783,
+      "gem_p2": 2.943817138671875,
+      "gem_p3": 2.207228183746338,
+      "gem_p4": 2.2700612545013428,
+      "gem_p5": 3.390413284301758,
+      "con_tau": 0.07875461876392365
+    },
+    "best_epoch": 1,
+    "gem_activation_diagnostics_all_stages_all_test_batches": {
+      "stage_1": {
+        "n_activations": 3048192000,
+        "frac_negative": 0.1341069092760561,
+        "frac_abs_below_eps": 1.1328026581002771e-06,
+        "negative_abs_mass_share": 0.046497069988647964
+      },
+      "stage_2": {
+        "n_activations": 3048192000,
+        "frac_negative": 0.1499567628942009,
+        "frac_abs_below_eps": 1.8187830687830689e-06,
+        "negative_abs_mass_share": 0.04491157112606617
+      },
+      "stage_3": {
+        "n_activations": 1672704000,
+        "frac_negative": 0.328376363660277,
+        "frac_abs_below_eps": 6.632374885215794e-06,
+        "negative_abs_mass_share": 0.09312613947604009
+      },
+      "stage_4": {
+        "n_activations": 995328000,
+        "frac_negative": 0.6528459171248071,
+        "frac_abs_below_eps": 3.294391396604938e-06,
+        "negative_abs_mass_share": 0.4636465423739713
+      },
+      "stage_5": {
+        "n_activations": 497664000,
+        "frac_negative": 0.40859023959940843,
+        "frac_abs_below_eps": 1.0388535236625515e-06,
+        "negative_abs_mass_share": 0.19279123795899583
+      },
+      "all_stages": {
+        "n_activations": 9262080000,
+        "frac_negative": 0.24490109608208954,
+        "frac_abs_below_eps": 2.5790103302929796e-06,
+        "negative_abs_mass_share": 0.08167347704468818
+      }
+    }
+  }
+}
