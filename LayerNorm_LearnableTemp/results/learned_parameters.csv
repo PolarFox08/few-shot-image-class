@@ -1,0 +1,5 @@
+Variant,stage_weight_1 (maxpool),stage_weight_2 (layer1),stage_weight_3 (layer2),stage_weight_4 (layer3),stage_weight_5 (layer4),gamma1 (support),gamma2 (query),"cosine_temp (unused, baseline param)",temperature_raw,temperature (softplus)
+1. Baseline (unchanged),0.35348,0.511134,0.440042,0.409775,1.055438,0.305749,1.100385,10.0,,
+2. LayerNorm only,0.6363,0.75729,0.797575,0.836368,1.340315,0.697584,-0.201278,10.0,,
+3. Learnable temperature only,0.387567,0.551634,0.486231,0.470911,1.182116,0.336323,1.142094,10.0,0.804555,1.174246
+4. LayerNorm + temperature,0.657447,0.776454,0.820172,0.856092,1.512244,0.68312,-0.182179,10.0,0.796373,1.1686

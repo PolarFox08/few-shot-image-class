@@ -1,0 +1,5 @@
+Variant,Baseline,Multiscale,Learnable weight,Self-attention,LayerNorm,Learnable temperature,MiniImageNet 5-shot (%),Inference time (s / episode),numParameter (M)
+1. Baseline (unchanged),Y,Y,Y,Y,N,N,82.48,0.0424,11.618
+2. LayerNorm only,Y,Y,Y,Y,Y,N,83.06,0.0426,11.62
+3. Learnable temperature only,Y,Y,Y,Y,N,Y,82.47,0.0424,11.618
+4. LayerNorm + temperature,Y,Y,Y,Y,Y,Y,83.18,0.0425,11.62

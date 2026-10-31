@@ -1,0 +1,4 @@
+Variant,Compared with,mean_diff_pp,ci95_low,ci95_high,t_stat,p_value,episodes_better,episodes_equal,episodes_worse,n_episodes
+2. LayerNorm only,1. Baseline (unchanged),0.584444,0.288221,0.880668,3.86705,0.000122,285,99,216,600
+3. Learnable temperature only,1. Baseline (unchanged),-0.002222,-0.172231,0.167786,-0.02562,0.979569,200,181,219,600
+4. LayerNorm + temperature,1. Baseline (unchanged),0.708889,0.407146,1.010632,4.604657,5e-06,297,88,215,600
