@@ -1,0 +1,4 @@
+model,total,trainable,backbone,self_attention,cross_attention_convs,cross_attention_gates,scalars
+Original MSENet (baseline),11618120,11618120,11176512,441600,0,0,8
+Adjacent Cross-Attention,11828172,11828172,11176512,441600,210048,4,8
+Bidirectional Cross-Attention,12071040,12071040,11176512,441600,452912,8,8

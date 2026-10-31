@@ -1,0 +1,4 @@
+model,total_params,trainable_params,total_params_M,train_time_total_min,train_time_per_epoch_min,validation_time_total_min,peak_train_gpu_mem_MB,infer_ms_per_episode_5shot,infer_ms_per_query_img_5shot,infer_query_img_per_s_5shot,peak_infer_gpu_mem_MB_5shot,GFLOPs_per_episode_5shot,wall_time_incl_test_and_benchmarks_min,total_params_x_baseline,train_time_total_min_x_baseline,infer_ms_per_episode_5shot_x_baseline,peak_train_gpu_mem_MB_x_baseline
+Original MSENet (baseline),11618120,11618120,11.618,26.29,2.63,4.04,3827.0,37.4,0.499,2005.2,1247.0,67.897,30.82,1.0,1.0,1.0,1.0
+Adjacent Cross-Attention,11828172,11828172,11.828,33.57,3.36,4.67,4896.0,43.87,0.585,1709.5,1284.0,72.969,38.82,1.018,1.277,1.173,1.279
+Bidirectional Cross-Attention,12071040,12071040,12.071,41.42,4.14,5.62,5928.0,53.9,0.719,1391.4,1292.0,80.98,47.75,1.039,1.576,1.441,1.549

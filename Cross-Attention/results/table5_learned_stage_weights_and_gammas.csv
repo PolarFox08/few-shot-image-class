@@ -1,0 +1,73 @@
+model,weights_from,parameter,value
+Original MSENet (baseline),best-validation checkpoint (used for test),stage_weight_1,0.356801
+Original MSENet (baseline),best-validation checkpoint (used for test),stage_weight_2,0.561793
+Original MSENet (baseline),best-validation checkpoint (used for test),stage_weight_3,0.454616
+Original MSENet (baseline),best-validation checkpoint (used for test),stage_weight_4,0.439271
+Original MSENet (baseline),best-validation checkpoint (used for test),stage_weight_5,1.049718
+Original MSENet (baseline),best-validation checkpoint (used for test),gamma1_support_selfattn,0.294169
+Original MSENet (baseline),best-validation checkpoint (used for test),gamma2_query_selfattn,1.097866
+Original MSENet (baseline),best-validation checkpoint (used for test),cosine_temp (unused for euclidean),10.0
+Original MSENet (baseline),last epoch,stage_weight_1,-0.075778
+Original MSENet (baseline),last epoch,stage_weight_2,0.095115
+Original MSENet (baseline),last epoch,stage_weight_3,-0.236
+Original MSENet (baseline),last epoch,stage_weight_4,-0.40897
+Original MSENet (baseline),last epoch,stage_weight_5,1.524149
+Original MSENet (baseline),last epoch,gamma1_support_selfattn,0.858536
+Original MSENet (baseline),last epoch,gamma2_query_selfattn,1.919266
+Original MSENet (baseline),last epoch,cosine_temp (unused for euclidean),10.0
+Adjacent Cross-Attention,best-validation checkpoint (used for test),stage_weight_1,0.343571
+Adjacent Cross-Attention,best-validation checkpoint (used for test),stage_weight_2,0.525347
+Adjacent Cross-Attention,best-validation checkpoint (used for test),stage_weight_3,0.470557
+Adjacent Cross-Attention,best-validation checkpoint (used for test),stage_weight_4,0.569063
+Adjacent Cross-Attention,best-validation checkpoint (used for test),stage_weight_5,1.028666
+Adjacent Cross-Attention,best-validation checkpoint (used for test),gamma1_support_selfattn,0.290951
+Adjacent Cross-Attention,best-validation checkpoint (used for test),gamma2_query_selfattn,1.071587
+Adjacent Cross-Attention,best-validation checkpoint (used for test),cosine_temp (unused for euclidean),10.0
+Adjacent Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage1 queries Stage2],0.42298
+Adjacent Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage2 queries Stage3],0.202548
+Adjacent Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage3 queries Stage4],0.513911
+Adjacent Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage4 queries Stage5],0.11734
+Adjacent Cross-Attention,last epoch,stage_weight_1,-0.037395
+Adjacent Cross-Attention,last epoch,stage_weight_2,0.039584
+Adjacent Cross-Attention,last epoch,stage_weight_3,-0.115167
+Adjacent Cross-Attention,last epoch,stage_weight_4,0.674324
+Adjacent Cross-Attention,last epoch,stage_weight_5,1.428023
+Adjacent Cross-Attention,last epoch,gamma1_support_selfattn,0.786843
+Adjacent Cross-Attention,last epoch,gamma2_query_selfattn,1.890563
+Adjacent Cross-Attention,last epoch,cosine_temp (unused for euclidean),10.0
+Adjacent Cross-Attention,last epoch,cross_gate[Stage1 queries Stage2],0.480986
+Adjacent Cross-Attention,last epoch,cross_gate[Stage2 queries Stage3],0.213674
+Adjacent Cross-Attention,last epoch,cross_gate[Stage3 queries Stage4],0.565127
+Adjacent Cross-Attention,last epoch,cross_gate[Stage4 queries Stage5],0.455887
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),stage_weight_1,0.343521
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),stage_weight_2,0.541952
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),stage_weight_3,0.481439
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),stage_weight_4,0.572785
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),stage_weight_5,1.027427
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),gamma1_support_selfattn,0.292689
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),gamma2_query_selfattn,1.067021
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cosine_temp (unused for euclidean),10.0
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage1 queries Stage2],0.413292
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage2 queries Stage3],0.208009
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage3 queries Stage4],0.497731
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage4 queries Stage5],0.119173
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage2 queries Stage1],0.264636
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage3 queries Stage2],0.204318
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage4 queries Stage3],0.275245
+Bidirectional Cross-Attention,best-validation checkpoint (used for test),cross_gate[Stage5 queries Stage4],0.434248
+Bidirectional Cross-Attention,last epoch,stage_weight_1,-0.036801
+Bidirectional Cross-Attention,last epoch,stage_weight_2,0.103376
+Bidirectional Cross-Attention,last epoch,stage_weight_3,-0.129255
+Bidirectional Cross-Attention,last epoch,stage_weight_4,0.764156
+Bidirectional Cross-Attention,last epoch,stage_weight_5,1.429217
+Bidirectional Cross-Attention,last epoch,gamma1_support_selfattn,0.767017
+Bidirectional Cross-Attention,last epoch,gamma2_query_selfattn,1.888442
+Bidirectional Cross-Attention,last epoch,cosine_temp (unused for euclidean),10.0
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage1 queries Stage2],0.466135
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage2 queries Stage3],0.225398
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage3 queries Stage4],0.532757
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage4 queries Stage5],0.496207
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage2 queries Stage1],0.334613
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage3 queries Stage2],0.207257
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage4 queries Stage3],0.06426
+Bidirectional Cross-Attention,last epoch,cross_gate[Stage5 queries Stage4],0.183877

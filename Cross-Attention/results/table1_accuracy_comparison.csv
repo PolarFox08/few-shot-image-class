@@ -1,0 +1,4 @@
+model,setting,test_acc_%,ci95_%,n_test_episodes,delta_vs_baseline_%,delta_ci95_%,paired_t_test_p,best_val_acc_5shot_%,best_epoch
+Original MSENet (baseline),5-way 5-shot,83.06,0.5,600,0.0,0.0,,82.38,1
+Adjacent Cross-Attention,5-way 5-shot,83.25,0.52,600,0.2,0.19,0.0409,82.26,1
+Bidirectional Cross-Attention,5-way 5-shot,83.06,0.51,600,-0.0,0.19,0.9814,82.24,1
