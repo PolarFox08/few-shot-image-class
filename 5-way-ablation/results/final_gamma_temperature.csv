@@ -1,0 +1,7 @@
+config,gamma1_support,gamma2_query,cosine_temp_unused_with_euclidean,note
+baseline,0.277837,1.0894,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance
+A1,0.120071,0.938618,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance
+A2,0.201295,0.436641,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance
+A3,0.280948,1.07672,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance
+A4,0.22329,0.903457,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance
+A5,0.0690165,0.991296,10,no learnable softmax temperature exists in these six configs; cosine_temp is inert for Euclidean distance

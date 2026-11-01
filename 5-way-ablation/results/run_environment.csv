@@ -1,0 +1,21 @@
+key,value
+python,3.13.15
+torch,2.11.0+cu128
+cuda_available,True
+gpu,Tesla T4
+torchvision,0.26.0+cu128
+easyfsl,1.5.0
+pretrained_backbone,True
+settings_signature,02a03b697bd6
+seed,42
+"episode_seeds(train,val,test)","(20263, 20261, 20262)"
+epochs x episodes,10 x 360
+train_way/test_way/shot/query,"(30, 5, 5, 15)"
+val_tasks/test_tasks,"(600, 600)"
+distance,euclidean
+amp,True
+"A2 lrs (layer2,layer3,layer4,heads+special)","(1e-06, 3e-06, 1e-05, 0.005)"
+A3 alpha / A4 beta / A5 smoothing,"(0.001, 0.99, 0.1)"
+train_time_note,"training loop only (data fetch + forward/backward + optimizer + EMA/L2-SP), validation excluded"
+inference_time_note,"model forward only per 5-way 5-shot episode (25 support + 75 query), CUDA-synchronised, 3 warm-up passes excluded"
+seeds_note,"one training seed per config: CIs reflect episode sampling only, not training-seed variance"

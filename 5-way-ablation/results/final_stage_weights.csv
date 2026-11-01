@@ -1,0 +1,7 @@
+config,stage_weight_1,stage_weight_2,stage_weight_3,stage_weight_4,stage_weight_5,stage_weight_share_1,stage_weight_share_2,stage_weight_share_3,stage_weight_share_4,stage_weight_share_5,source
+baseline,0.354435,0.503522,0.384648,0.351791,1.0582,0.133618,0.189822,0.145008,0.132621,0.398929,best-validation checkpoint (the model that was tested)
+A1,0.369114,0.409117,0.328083,0.277182,1.1262,0.147075,0.163014,0.130726,0.110444,0.44874,best-validation checkpoint (the model that was tested)
+A2,0.227611,0.732337,2.17665,3.0844,0.652209,0.0331158,0.10655,0.316686,0.448757,0.0948916,best-validation checkpoint (the model that was tested)
+A3,0.349482,0.498133,0.380599,0.35419,1.05532,0.132493,0.188849,0.14429,0.134278,0.400088,best-validation checkpoint (the model that was tested)
+A4,0.461145,0.620966,0.55088,0.57502,1.05393,0.141371,0.190367,0.168881,0.176281,0.3231,best-validation checkpoint (the model that was tested)
+A5,0.35721,0.463566,0.354453,0.298323,0.789193,0.157866,0.204869,0.156647,0.131841,0.348777,best-validation checkpoint (the model that was tested)

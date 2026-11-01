@@ -1,0 +1,7 @@
+config,description,test_acc_5way5shot,test_acc_ci95,test_episode_std,delta_vs_baseline,delta_ci95_paired,delta_significant_95,best_val_acc,best_epoch,final_epoch_train_acc_30way,final_epoch_val_acc_5way,final_train_ce,final_val_loss,train_time_min,infer_ms_per_episode,params_M,trainable_params_M,peak_gpu_train_mb,peak_gpu_infer_mb,gflops_per_episode
+baseline,Original baseline (unchanged),82.2356,0.518089,6.47476,0,0,False,82.34,1,99.9605,78.8067,0.00136288,0.740973,28.1092,32.2445,11.6181,11.6181,3691.49,218.984,67.8966
+A1,BatchNorm frozen (eval mode),82.3311,0.539325,6.74016,0.0955556,0.369939,False,82.0022,1,99.979,78.7178,0.000854071,0.708596,27.9349,32.2323,11.6181,11.6181,3689.67,218.984,67.8966
+A2,Discriminative LR + frozen stem/layer1,78.8933,0.563275,7.03947,-3.34222,0.417663,True,78.5889,3,62.6623,46.8022,,1.28877,23.4096,32.2859,11.6181,11.4606,3023.61,218.984,67.8966
+A3,L2-SP regularisation (alpha=0.001),82.2356,0.514666,6.43199,-1.89478e-16,0.160759,False,82.2244,1,99.9462,79.3956,0.00205192,0.733048,28.6304,31.2426,11.6181,11.6181,3773.72,218.984,67.8966
+A4,"EMA of weights (beta=0.99), EMA evaluated",84.1244,0.493201,6.16373,1.88889,0.235309,True,83.7489,1,99.9623,78.4733,0.00122671,0.76042,28.0569,32.2483,11.6181,11.6181,3735.18,218.984,67.8966
+A5,Label smoothing (0.1),82.5156,0.537478,6.71707,0.28,0.251837,True,82.3822,1,99.9988,74.8756,0.110152,0.888593,28.3766,32.1464,11.6181,11.6181,3687.5,218.984,67.8966
