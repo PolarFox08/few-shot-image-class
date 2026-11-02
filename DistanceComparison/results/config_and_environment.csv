@@ -1,0 +1,2 @@
+python,platform,pytorch,cuda_available,gpu,device,seed,image_size,max_epochs,train_episodes_per_epoch,validation_episodes,test_episodes,train_way,test_way,shot,query_per_class,stage_nodes,stage_weight_initialization,cosine_temperature_initialization,use_amp,imagenet_pretrained
+"3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",Linux-6.18.55+-x86_64-with-glibc2.39,2.11.0+cu128,TRUE,Tesla T4,cuda,42,84,10,360,600,600,30,5,5,15,"['maxpool', 'layer1', 'layer2', 'layer3', 'layer4']","[1.0, 1.1, 1.2, 1.3, 1.4]",10,TRUE,TRUE
