@@ -1,0 +1,5 @@
+experiment,description,test_acc,abs_improvement,rel_improvement_pct
+E0,Original Baseline,82.5222,0,0
+E1,EMA + LayerNorm + GeM,85.0778,2.55556,3.09681
+E2,EMA + GeM,84.7844,2.26222,2.74135
+E3,EMA + LayerNorm,84.8133,2.29111,2.77636
