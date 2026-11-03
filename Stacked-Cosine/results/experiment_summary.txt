@@ -1,0 +1,44 @@
+========================================================================
+MSENet Stacked Experiment Summary
+Generated: 2026-11-02T20:37:06.611174
+========================================================================
+
+DISTANCE_METRIC = 'cosine'
+  (change 'euclidean' to 'cosine' in Cell 3 to switch all experiments)
+
+Hyperparameters:
+  Epochs x Episodes              = 10 x 360
+  Evaluation protocol            = 5-way 5-shot
+  Val / Test tasks               = 600 / 600
+  backbone_lr                    = 0.0001
+  weights_lr                     = 0.005
+  gem_lr                         = 0.001
+  EMA beta                       = 0.99
+  GeM P_INIT                     = 3.0
+  STAGE_WEIGHTS init             = (1.0, 1.1, 1.2, 1.3, 1.4)
+  gamma_init                     = 0.2
+  COSINE_TEMP init               = 10.0
+  AMP                            = True
+  Seeds (train/val/test)         = 20263/20261/20262
+
+Experiment Configurations:
+  [C0] Original Baseline          ema=False  gem=False  layernorm=False
+  [C1] EMA + LayerNorm + GeM      ema=True  gem=True  layernorm=True
+  [C2] EMA + GeM                  ema=True  gem=True  layernorm=False
+  [C3] EMA + LayerNorm            ema=True  gem=False  layernorm=True
+
+Final Results:
+  Exp   Description                   Test%   BestVal%  BestEp   TrainMin
+  [C0]  Original Baseline            82.07%     82.53%       1      20.8 min
+  [C1]  EMA + LayerNorm + GeM        84.43%     83.98%       1      24.9 min
+  [C2]  EMA + GeM                    84.53%     84.19%       1      24.8 min
+  [C3]  EMA + LayerNorm              84.53%     84.42%       1      21.0 min
+
+Environment:
+  python: 3.13.16
+  torch: 2.11.0+cu130
+  cuda_available: True
+  gpu: Tesla T4
+  distance_metric: cosine
+  torchvision: 0.26.0+cu130
+  easyfsl: 1.5.0

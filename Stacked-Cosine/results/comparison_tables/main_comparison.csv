@@ -1,0 +1,5 @@
+experiment,description,distance_metric,test_acc_5way5shot,test_acc_ci95,test_acc_std,delta_vs_baseline,delta_ci95_paired,best_val_acc,final_val_acc,best_epoch,train_time_min,wall_time_min,n_total_params,n_trainable_params,peak_train_gpu_mb,peak_infer_gpu_mb,infer_ms_per_episode
+C0,Original Baseline,cosine,82.0711,0.518438,6.47912,0,0,82.5289,78.4333,1,20.7527,25.0307,11618120,11618120,3876.42,511.025,35.5662
+C1,EMA + LayerNorm + GeM,cosine,84.4311,0.495594,6.19363,2.36,0.271261,83.9778,78.0489,1,24.8777,29.6924,11620173,11620173,4666.73,511.589,40.268
+C2,EMA + GeM,cosine,84.5311,0.504421,6.30394,2.46,0.236306,84.1889,78.9067,1,24.8082,29.6276,11618125,11618125,4665.03,511.563,40.4118
+C3,EMA + LayerNorm,cosine,84.5311,0.491097,6.13744,2.46,0.277506,84.4244,78.8356,1,20.9866,25.2596,11620168,11620168,3926.77,511.482,35.5107

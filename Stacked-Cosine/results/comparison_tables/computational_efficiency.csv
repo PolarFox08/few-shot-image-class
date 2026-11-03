@@ -1,0 +1,5 @@
+experiment,description,train_time_total_s,train_time_per_epoch_s,infer_ms_per_episode,n_total_params,n_trainable_params,peak_train_gpu_mb,peak_infer_gpu_mb,process_rss_gb
+C0,Original Baseline,1245.16,124.516,35.5662,11618120,11618120,3876.42,511.025,3.65034
+C1,EMA + LayerNorm + GeM,1492.66,149.266,40.268,11620173,11620173,4666.73,511.589,3.65034
+C2,EMA + GeM,1488.49,148.849,40.4118,11618125,11618125,4665.03,511.563,3.65034
+C3,EMA + LayerNorm,1259.2,125.92,35.5107,11620168,11620168,3926.77,511.482,3.65034
