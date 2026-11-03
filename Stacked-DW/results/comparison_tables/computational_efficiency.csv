@@ -1,0 +1,4 @@
+experiment,description,train_time_total_s,train_time_per_epoch_s,infer_ms_per_episode,n_total_params,n_trainable_params,peak_train_gpu_mb,peak_infer_gpu_mb,process_rss_gb
+D0,"DW only (baseline, no LN/EMA/GeM)",1169.63,116.963,37.1061,11618586,11618586,3887.67,514.353,3.77907
+D1,DW + LayerNorm + EMA,1191.35,119.135,37.1564,11620634,11620634,3928.61,517.097,3.77907
+D2,DW + LayerNorm + EMA + GeM,1416.38,141.638,42.4879,11620639,11620639,4667.6,513.423,3.77907

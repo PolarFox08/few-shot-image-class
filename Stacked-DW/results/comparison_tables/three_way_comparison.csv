@@ -1,0 +1,4 @@
+experiment,description,use_layernorm,use_ema,use_gem,test_acc_5way5shot,test_acc_ci95,test_loss,delta_vs_D0,delta_ci95_paired,best_val_acc,final_val_acc,final_val_loss,best_epoch,train_time_min,wall_time_min,infer_ms_per_episode,peak_train_gpu_mb,peak_infer_gpu_mb,n_total_params,n_trainable_params,dw_fisher_temp_final,dw_mix_alpha_final
+D0,"DW only (baseline, no LN/EMA/GeM)",False,False,False,82.8756,0.515957,0.464913,0,0,82.7156,79.0778,0.796537,1,19.4938,23.9982,37.1061,3887.67,514.353,11618586,11618586,1.9403,0.552386
+D1,DW + LayerNorm + EMA,True,True,False,85.3,0.477975,0.402895,2.42444,0.308525,84.36,79.1778,0.866007,1,19.8558,24.3605,37.1564,3928.61,517.097,11620634,11620634,1.92671,0.521207
+D2,DW + LayerNorm + EMA + GeM,True,True,True,85.2689,0.49537,0.400434,2.39333,0.309588,84.4467,78.8733,0.873536,1,23.6063,28.6945,42.4879,4667.6,513.423,11620639,11620639,1.93354,0.519075

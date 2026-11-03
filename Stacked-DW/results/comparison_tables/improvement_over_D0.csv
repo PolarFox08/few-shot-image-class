@@ -1,0 +1,4 @@
+experiment,description,test_acc,abs_improvement,rel_improvement_pct
+D0,"DW only (baseline, no LN/EMA/GeM)",82.8756,0,0
+D1,DW + LayerNorm + EMA,85.3,2.42444,2.9254
+D2,DW + LayerNorm + EMA + GeM,85.2689,2.39333,2.88786

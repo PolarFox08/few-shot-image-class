@@ -1,0 +1,48 @@
+========================================================================
+MSENet Stacked Experiment Summary — D0 (DW only) vs D1 (DW+LN+EMA) vs D2 (DW+LN+EMA+GeM)
+Generated: 2026-11-03T09:43:31.237100
+========================================================================
+
+Distance: Euclidean (fixed)
+
+Hyperparameters:
+  Epochs x Episodes              = 10 x 360
+  Evaluation protocol            = 5-way 5-shot
+  Val / Test tasks               = 600 / 600
+  backbone_lr                    = 0.0001
+  weights_lr                     = 0.005
+  gem_lr                         = 0.001
+  dynamic_gate_lr                = 0.001
+  DW gate scale                  = 0.5
+  DW fisher_temp init            = 2.0
+  EMA beta                       = 0.99
+  GeM P_INIT                     = 3.0
+  STAGE_WEIGHTS init             = (1.0, 1.1, 1.2, 1.3, 1.4)
+  gamma_init                     = 0.2
+  AMP                            = True
+  Seeds (train/val/test)         = 20263/20261/20262
+
+Experiment Configurations (all: Euclidean distance + Dynamic Weights, always on):
+  [D0] DW only (baseline, no LN/EMA/GeM)  layernorm=False  ema=False  gem=False  gammalearnable=True
+  [D1] DW + LayerNorm + EMA            layernorm=True  ema=True  gem=False  gammalearnable=True
+  [D2] DW + LayerNorm + EMA + GeM      layernorm=True  ema=True  gem=True  gammalearnable=True
+
+Final Results:
+  Exp   Description                      Test%   BestVal%  BestEp   TrainMin
+  [D0]  DW only (baseline, no LN/EMA/GeM)    82.88%     82.72%       1      19.5 min
+  [D1]  DW + LayerNorm + EMA            85.30%     84.36%       1      19.9 min
+  [D2]  DW + LayerNorm + EMA + GeM      85.27%     84.45%       1      23.6 min
+
+Dynamic weights on test episodes (mean over tasks):
+  [D0] [0.231, 0.2557, 0.2379, 0.6943, 1.1145]
+  [D1] [0.3081, 0.313, 0.3387, 0.4404, 1.9954]
+  [D2] [0.3002, 0.316, 0.4035, 0.472, 1.8736]
+
+Environment:
+  python: 3.13.16
+  torch: 2.11.0+cu130
+  cuda_available: True
+  gpu: Tesla T4
+  distance: euclidean
+  torchvision: 0.26.0+cu130
+  easyfsl: 1.5.0
