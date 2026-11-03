@@ -16,7 +16,7 @@ All three models were trained under identical conditions from a shared ResNet-18
 
 *Reference Baselines on MiniImageNet (5-way 5-shot):*
 - **Original MSENet Baseline (Static Euclidean):** ~82.24% – 82.48%
-- **Static Cosine MSENet ([`msenet_cosine`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/results.md)):** 82.97%
+- **Static Cosine MSENet ([`msenet_cosine`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/RESULTS.md)):** 82.97%
 - **Cosine + Dynamic Weights (Ours):** **83.50%** (**+1.26 pp** over paper baseline, **+0.53 pp** over static cosine)
 
 ---

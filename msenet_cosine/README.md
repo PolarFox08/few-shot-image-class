@@ -106,4 +106,4 @@ All 4 notebooks share an identical, strictly controlled training protocol to ens
 - **Initial Cosine Temperature ($T_{\cos}$):** $10.0$.
 - **Acceleration:** Automatic Mixed Precision (`torch.cuda.amp.autocast`) on NVIDIA Tesla T4.
 
-For detailed quantitative results, epoch-wise loss/accuracy tables, learned parameter values, and comparative analysis, see [`results.md`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/results.md).
+For detailed quantitative results, epoch-wise loss/accuracy tables, learned parameter values, and comparative analysis, see [`RESULTS.md`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/RESULTS.md).
