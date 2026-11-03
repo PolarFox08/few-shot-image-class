@@ -21,7 +21,7 @@ All four configurations were trained under identical seeds, hyperparameter setti
 
 The figure below illustrates the 5-way 5-shot test accuracy comparison across all four configurations, including 95% confidence intervals and best validation accuracy markers:
 
-![Test Accuracy Comparison](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/plots/05_test_accuracy_comparison.png)
+![Test Accuracy Comparison](results/plots/05_test_accuracy_comparison.png)
 
 ---
 
@@ -175,7 +175,7 @@ Extracted directly from `final_parameters.csv`:
 
 ## 6. Synthesis and Findings of Non-Embedded Plots
 
-In accordance with documentation guidelines, only the main test accuracy comparison plot is embedded in this document. Below is a comprehensive qualitative summary of the remaining visualizations located in [`results/plots/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/plots/):
+In accordance with documentation guidelines, only the main test accuracy comparison plot is embedded in this document. Below is a comprehensive qualitative summary of the remaining visualizations located in [`results/plots/`](results/plots):
 
 - **Train Loss & Accuracy Trajectories (`01_train_accuracy_vs_epoch.png`, `02_train_loss_vs_epoch.png`):**  
   All four configurations rapidly minimize cross-entropy loss, with training accuracy crossing 95% by Epoch 2 and asymptoting near 99.98% by Epoch 10. Training loss descends smoothly from ~0.53–0.62 down to ~0.001.
@@ -194,12 +194,12 @@ In accordance with documentation guidelines, only the main test accuracy compari
 
 ## 7. CSV Results Index
 
-All processed data and raw statistical metrics are preserved in the following CSV tables under [`results/comparison_tables/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/) and [`results/parameter_tracking/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/parameter_tracking/):
+All processed data and raw statistical metrics are preserved in the following CSV tables under [`results/comparison_tables/`](results/comparison_tables) and [`results/parameter_tracking/`](results/parameter_tracking):
 
-1. [`main_comparison.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/main_comparison.csv): Master comparison table covering test accuracy, 95% CIs, standard deviations, validation benchmarks, parameter counts, and timing.
-2. [`improvement_over_baseline.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/improvement_over_baseline.csv): Absolute and percentage gains over the original baseline.
-3. [`computational_efficiency.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/computational_efficiency.csv): Training wall time, per-epoch timing, inference latency, memory footprint, and parameter metrics.
-4. [`per_epoch_metrics.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/per_epoch_metrics.csv): Comprehensive per-epoch log of loss, accuracy, learning rates, GPU VRAM, and tracked parameter scalars.
-5. [`experiment_config.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/comparison_tables/experiment_config.csv): Complete hyperparameter, seed, and software environment configuration log.
-6. [`final_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/parameter_tracking/final_parameters.csv): Final parameter values at best validation checkpoint and at the conclusion of training.
-7. [`parameter_trajectories.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/results/parameter_tracking/parameter_trajectories.csv): Epoch-by-epoch parameter evolution history for all configurations.
+1. [`main_comparison.csv`](results/comparison_tables/main_comparison.csv): Master comparison table covering test accuracy, 95% CIs, standard deviations, validation benchmarks, parameter counts, and timing.
+2. [`improvement_over_baseline.csv`](results/comparison_tables/improvement_over_baseline.csv): Absolute and percentage gains over the original baseline.
+3. [`computational_efficiency.csv`](results/comparison_tables/computational_efficiency.csv): Training wall time, per-epoch timing, inference latency, memory footprint, and parameter metrics.
+4. [`per_epoch_metrics.csv`](results/comparison_tables/per_epoch_metrics.csv): Comprehensive per-epoch log of loss, accuracy, learning rates, GPU VRAM, and tracked parameter scalars.
+5. [`experiment_config.csv`](results/comparison_tables/experiment_config.csv): Complete hyperparameter, seed, and software environment configuration log.
+6. [`final_parameters.csv`](results/parameter_tracking/final_parameters.csv): Final parameter values at best validation checkpoint and at the conclusion of training.
+7. [`parameter_trajectories.csv`](results/parameter_tracking/parameter_trajectories.csv): Epoch-by-epoch parameter evolution history for all configurations.

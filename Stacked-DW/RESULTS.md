@@ -20,7 +20,7 @@ All three configurations were trained under identical seeds, hyperparameter sett
 
 The figure below illustrates the 5-way 5-shot test accuracy comparison across all three configurations, including 95% confidence intervals and validation benchmark markers:
 
-![Test Accuracy Comparison](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/plots/05_test_accuracy_comparison.png)
+![Test Accuracy Comparison](results/plots/05_test_accuracy_comparison.png)
 
 ---
 
@@ -175,7 +175,7 @@ All models were trained for 10 epochs (360 episodes per epoch) using Adam with C
 
 ## 7. Generated Visualizations Overview
 
-All high-resolution diagnostic plots generated during execution are stored in [`Stacked-DW/results/plots/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/plots):
+All high-resolution diagnostic plots generated during execution are stored in [`Stacked-DW/results/plots/`](results/plots):
 
 1. **`01_train_accuracy_vs_epoch.png` & `02_train_loss_vs_epoch.png`:** Document rapid training convergence reaching >99.9% accuracy by Epoch 10 across all configurations.
 2. **`03_val_accuracy_vs_epoch.png` & `04_val_loss_vs_epoch.png`:** Highlight the sharp performance peak at Epoch 1 (~84.4% for D1/D2 vs 82.7% for D0) followed by gradual validation divergence typical of episodic meta-training.
@@ -191,14 +191,14 @@ All high-resolution diagnostic plots generated during execution are stored in [`
 
 ## 8. CSV Results Index
 
-For raw numerical evaluation data, please consult the exported CSV files in [`Stacked-DW/results/comparison_tables/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables) and [`Stacked-DW/results/parameter_tracking/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/parameter_tracking):
+For raw numerical evaluation data, please consult the exported CSV files in [`Stacked-DW/results/comparison_tables/`](results/comparison_tables) and [`Stacked-DW/results/parameter_tracking/`](results/parameter_tracking):
 
-- [`main_comparison.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/main_comparison.csv): Comprehensive comparative metrics, test accuracy, 95% CI, delta vs. D0, validation performance, runtimes, and memory footprints.
-- [`three_way_comparison.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/three_way_comparison.csv): Clean 3-way table of configurations D0, D1, and D2.
-- [`improvement_over_D0.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/improvement_over_D0.csv): Absolute and relative test accuracy gains over baseline D0.
-- [`dynamic_weights_test_stats.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/dynamic_weights_test_stats.csv): Mean, standard deviation, global priors, and sample task weights across 600 test episodes.
-- [`computational_efficiency.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/computational_efficiency.csv): Profiling runtimes, throughput, parameters, and peak VRAM.
-- [`per_epoch_metrics.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/per_epoch_metrics.csv): Full 10-epoch per-epoch training/val loss, accuracy, timings, dynamic weights, and attention parameters.
-- [`final_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/parameter_tracking/final_parameters.csv): Checkpoint vs. epoch 10 parameters (prior weights, gammas, DW gates, GeM $p$).
-- [`parameter_trajectories.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/parameter_tracking/parameter_trajectories.csv): Step-by-step evolution of parameters recorded throughout training.
-- [`experiment_config.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/results/comparison_tables/experiment_config.csv): Complete runtime environment, library versions, hyperparameters, and seeds.
+- [`main_comparison.csv`](results/comparison_tables/main_comparison.csv): Comprehensive comparative metrics, test accuracy, 95% CI, delta vs. D0, validation performance, runtimes, and memory footprints.
+- [`three_way_comparison.csv`](results/comparison_tables/three_way_comparison.csv): Clean 3-way table of configurations D0, D1, and D2.
+- [`improvement_over_D0.csv`](results/comparison_tables/improvement_over_D0.csv): Absolute and relative test accuracy gains over baseline D0.
+- [`dynamic_weights_test_stats.csv`](results/comparison_tables/dynamic_weights_test_stats.csv): Mean, standard deviation, global priors, and sample task weights across 600 test episodes.
+- [`computational_efficiency.csv`](results/comparison_tables/computational_efficiency.csv): Profiling runtimes, throughput, parameters, and peak VRAM.
+- [`per_epoch_metrics.csv`](results/comparison_tables/per_epoch_metrics.csv): Full 10-epoch per-epoch training/val loss, accuracy, timings, dynamic weights, and attention parameters.
+- [`final_parameters.csv`](results/parameter_tracking/final_parameters.csv): Checkpoint vs. epoch 10 parameters (prior weights, gammas, DW gates, GeM $p$).
+- [`parameter_trajectories.csv`](results/parameter_tracking/parameter_trajectories.csv): Step-by-step evolution of parameters recorded throughout training.
+- [`experiment_config.csv`](results/comparison_tables/experiment_config.csv): Complete runtime environment, library versions, hyperparameters, and seeds.

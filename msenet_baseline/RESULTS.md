@@ -1,6 +1,6 @@
 # Experimental Results: MSENet Baseline (Euclidean Distance)
 
-This document details the quantitative outcomes obtained from training and evaluating the standalone canonical **MSENet baseline** in [`msenet-base1-final.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_baseline/msenet-base1-final.ipynb) on the **MiniImageNet** dataset (ResNet-18 backbone, 5-way 5-shot evaluation over 600 fixed test episodes).
+This document details the quantitative outcomes obtained from training and evaluating the standalone canonical **MSENet baseline** in [`msenet-base1-final.ipynb`](msenet-base1-final.ipynb) on the **MiniImageNet** dataset (ResNet-18 backbone, 5-way 5-shot evaluation over 600 fixed test episodes).
 
 ---
 

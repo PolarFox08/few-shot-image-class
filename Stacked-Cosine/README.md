@@ -172,7 +172,7 @@ Stacked-Cosine/
   - **C1 (EMA + LayerNorm + GeM)** reaches **84.4311%** (+2.36 pp). While both individual modules yield ~+2.46 pp, stacking both under cosine normalization achieves near-identical high-accuracy regimes without negative interference.
 - **Statistical Significance:** Paired 95% confidence intervals versus baseline strictly exclude zero for all models ($\text{CI95}_{\text{paired}} \approx \pm 0.24 - 0.28\text{ pp}$), establishing statistical significance at $p \ll 0.001$.
 
-For comprehensive epoch-by-epoch progressions, parameter trajectories, paired significance tests, and hardware profiling, refer to [`RESULTS.md`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Cosine/RESULTS.md).
+For comprehensive epoch-by-epoch progressions, parameter trajectories, paired significance tests, and hardware profiling, refer to [`RESULTS.md`](RESULTS.md).
 
 ---
 

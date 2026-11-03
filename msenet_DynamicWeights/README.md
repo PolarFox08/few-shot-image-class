@@ -142,4 +142,4 @@ msenet_DynamicWeights/
 - **Paired Advantage:** In head-to-head episode comparison, Cosine beats Euclidean in **52.5%** of test episodes (+0.93 pp mean margin).
 - **Negligible Overhead:** Dynamic weighting adds only 4,772 parameters (+0.04% parameter overhead) and runs in **<90 ms per episode**.
 
-For detailed per-epoch progression, paired win-rates, stage weight distributions, and deep-dive discussions, see [`RESULTS.md`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/RESULTS.md).
+For detailed per-epoch progression, paired win-rates, stage weight distributions, and deep-dive discussions, see [`RESULTS.md`](RESULTS.md).

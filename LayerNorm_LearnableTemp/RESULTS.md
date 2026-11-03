@@ -201,32 +201,32 @@ Hardware benchmarking was conducted on a single **NVIDIA Tesla T4 GPU (16 GB VRA
 
 ## 6. Synthesis of Complementary Visualizations
 
-The target repository includes 11 comprehensive visualization plots in [`results/plots/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots). In accordance with reporting guidelines, only the primary accuracy comparison plot ([`1_test_accuracy_ci.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/1_test_accuracy_ci.png)) is embedded above. The findings of the remaining figures are summarized below:
+The target repository includes 11 comprehensive visualization plots in [`results/plots/`](results/plots). In accordance with reporting guidelines, only the primary accuracy comparison plot ([`1_test_accuracy_ci.png`](results/plots/1_test_accuracy_ci.png)) is embedded above. The findings of the remaining figures are summarized below:
 
-1. **Training Accuracy & Loss Per Epoch ([`2_training_accuracy_per_epoch.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/2_training_accuracy_per_epoch.png), [`3_training_loss_per_epoch.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/3_training_loss_per_epoch.png)):**  
+1. **Training Accuracy & Loss Per Epoch ([`2_training_accuracy_per_epoch.png`](results/plots/2_training_accuracy_per_epoch.png), [`3_training_loss_per_epoch.png`](results/plots/3_training_loss_per_epoch.png)):**  
    Illustrates rapid convergence across all 4 configurations, starting from $\sim 80.7\% - 81.3\%$ accuracy in Epoch 1 to $>99.9\%$ by Epoch 8, with smooth exponential loss decay ($0.66 \to 0.0015$). LayerNorm models exhibit slightly higher initial Epoch 1 accuracy ($81.28\%$ vs. $80.66\%$).
-2. **Validation Accuracy & Loss Trajectories ([`4_validation_accuracy_per_epoch.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/4_validation_accuracy_per_epoch.png), [`5_validation_loss_per_epoch.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/5_validation_loss_per_epoch.png)):**  
+2. **Validation Accuracy & Loss Trajectories ([`4_validation_accuracy_per_epoch.png`](results/plots/4_validation_accuracy_per_epoch.png), [`5_validation_loss_per_epoch.png`](results/plots/5_validation_loss_per_epoch.png)):**  
    Shows that validation accuracy peaks sharply in Epoch 1 and gradually plateaus around $\sim 79.5\% - 80.0\%$ as training progresses. Validation loss exhibits lower drift for the LayerNorm models compared to unnormalized models.
-3. **Training & Inference Timing Profiles ([`6_training_time.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/6_training_time.png), [`7_inference_time.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/7_inference_time.png)):**  
+3. **Training & Inference Timing Profiles ([`6_training_time.png`](results/plots/6_training_time.png), [`7_inference_time.png`](results/plots/7_inference_time.png)):**  
    Confirms nearly identical wall-clock runtime across all variants ($\sim 46.4 - 46.8$ total training minutes and $\sim 42.4 - 42.5$ ms per episode inference latency).
-4. **GPU Memory Utilization ([`8_gpu_memory.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/8_gpu_memory.png)):**  
+4. **GPU Memory Utilization ([`8_gpu_memory.png`](results/plots/8_gpu_memory.png)):**  
    Demonstrates identical memory allocation profiles across all four configurations (~3.78 GB training, ~0.45 GB inference).
-5. **Learned Weights & Temperature Distributions ([`9_learned_weights_and_temperature.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/9_learned_weights_and_temperature.png)):**  
+5. **Learned Weights & Temperature Distributions ([`9_learned_weights_and_temperature.png`](results/plots/9_learned_weights_and_temperature.png)):**  
    Visualizes the upward redistribution of intermediate stage weights under LayerNorm ($w_1 - w_4$) and the steady convergence of $T$ to $\approx 1.17$.
-6. **Multi-Variant Accuracy Overview & LR Trajectory ([`10_four_variant_accuracy_comparison.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/10_four_variant_accuracy_comparison.png), [`11_learning_rate_trajectory.png`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/plots/11_learning_rate_trajectory.png)):**  
+6. **Multi-Variant Accuracy Overview & LR Trajectory ([`10_four_variant_accuracy_comparison.png`](results/plots/10_four_variant_accuracy_comparison.png), [`11_learning_rate_trajectory.png`](results/plots/11_learning_rate_trajectory.png)):**  
    Summarizes the final test vs. validation benchmarks across variants and plots the Cosine Annealing decay of the backbone learning rate.
 
 ---
 
 ## 7. CSV Results Index
 
-All raw quantitative tables analyzed in this report are saved in [`LayerNorm_LearnableTemp/results/comparison_tables/`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables):
-- [`summary_comparison.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/summary_comparison.csv): Full 26-column benchmark comparison including accuracy, confidence intervals, timing, parameters, and memory.
-- [`paper_style_table.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/paper_style_table.csv): Clean comparative table formatted for academic publication.
-- [`paired_vs_baseline.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/paired_vs_baseline.csv): Head-to-head paired statistical tests, $t$-statistics, $p$-values, and win/tie/loss tallies.
-- [`layernorm_summary.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/layernorm_summary.csv): Stage-by-stage weight and bias distribution statistics for LayerNorm modules.
-- [`learned_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/learned_parameters.csv): Learned stage weights, gammas, raw temperatures, and softplus temperatures.
-- [`per_epoch_history.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/per_epoch_history.csv): Complete epoch-by-epoch training/validation progression across all 10 epochs.
-- [`per_episode_test_accuracy.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/per_episode_test_accuracy.csv): Per-episode accuracy records across all 600 paired test tasks.
-- [`config_and_environment.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/comparison_tables/config_and_environment.csv): Complete hardware, software environment, seed, and hyperparameter specifications.
-- [`learned_parameters.json`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/results/learned_parameters.json): Raw exported JSON dictionary containing all learned parameter arrays and per-channel weights.
+All raw quantitative tables analyzed in this report are saved in [`LayerNorm_LearnableTemp/results/comparison_tables/`](results/comparison_tables):
+- [`summary_comparison.csv`](results/comparison_tables/summary_comparison.csv): Full 26-column benchmark comparison including accuracy, confidence intervals, timing, parameters, and memory.
+- [`paper_style_table.csv`](results/comparison_tables/paper_style_table.csv): Clean comparative table formatted for academic publication.
+- [`paired_vs_baseline.csv`](results/comparison_tables/paired_vs_baseline.csv): Head-to-head paired statistical tests, $t$-statistics, $p$-values, and win/tie/loss tallies.
+- [`layernorm_summary.csv`](results/comparison_tables/layernorm_summary.csv): Stage-by-stage weight and bias distribution statistics for LayerNorm modules.
+- [`learned_parameters.csv`](results/comparison_tables/learned_parameters.csv): Learned stage weights, gammas, raw temperatures, and softplus temperatures.
+- [`per_epoch_history.csv`](results/comparison_tables/per_epoch_history.csv): Complete epoch-by-epoch training/validation progression across all 10 epochs.
+- [`per_episode_test_accuracy.csv`](results/comparison_tables/per_episode_test_accuracy.csv): Per-episode accuracy records across all 600 paired test tasks.
+- [`config_and_environment.csv`](results/comparison_tables/config_and_environment.csv): Complete hardware, software environment, seed, and hyperparameter specifications.
+- [`learned_parameters.json`](results/learned_parameters.json): Raw exported JSON dictionary containing all learned parameter arrays and per-channel weights.

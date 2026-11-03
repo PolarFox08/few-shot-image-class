@@ -168,7 +168,7 @@ Stacked-Euclidean/
   - **EMA + GeM (E2)** achieves **84.78%** (+2.26 pp) with only 5 additional learnable parameters (+5 scalars).
   - Combining all three (**E1**) unlocks an additional **+0.27 pp to +0.30 pp** boost over the dual combinations, proving that spatial saliency filtering (GeM) and channel variance normalization (LayerNorm) are orthogonal and mutually reinforcing.
 
-For full epoch-by-epoch progressions, parameter trajectories, paired significance tests, and hardware profiling, refer to [`RESULTS.md`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-Euclidean/RESULTS.md).
+For full epoch-by-epoch progressions, parameter trajectories, paired significance tests, and hardware profiling, refer to [`RESULTS.md`](RESULTS.md).
 
 ---
 

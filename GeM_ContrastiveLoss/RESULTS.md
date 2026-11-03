@@ -35,7 +35,7 @@ The plot below presents the final test accuracy comparison across all four confi
 
 ## 3. Detailed Test Accuracy & Statistical Significance Analysis
 
-From [`test_accuracy.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/comparison_tables/test_accuracy.csv) and [`paired_vs_baseline.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/comparison_tables/paired_vs_baseline.csv), we report the exact metric values across 600 test episodes:
+From [`test_accuracy.csv`](results/comparison_tables/test_accuracy.csv) and [`paired_vs_baseline.csv`](results/comparison_tables/paired_vs_baseline.csv), we report the exact metric values across 600 test episodes:
 
 | Configuration | 5-way 5-shot Mean Acc (%) | 95% CI (pp) | 5-shot Mean Diff vs. Baseline (pp) | 5-shot Paired 95% CI (pp) | CI Excludes Zero? | 5-way 1-shot Mean Acc (%) | 95% CI (pp) | 1-shot Mean Diff vs. Baseline (pp) | 1-shot Paired 95% CI (pp) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -54,7 +54,7 @@ From [`test_accuracy.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-sho
 
 ## 4. Computational Efficiency & Hardware Profiling
 
-From [`efficiency_metrics.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/comparison_tables/efficiency_metrics.csv), we evaluate throughput, latency, FLOP counts, and memory footprints:
+From [`efficiency_metrics.csv`](results/comparison_tables/efficiency_metrics.csv), we evaluate throughput, latency, FLOP counts, and memory footprints:
 
 | Configuration | Total Train Time | Train Time / Epoch | Val Time (600 tasks) | Inference Latency (Mean $\pm$ Std) | Inference Throughput | FLOPs / Episode | Train Peak VRAM | Train Reserved VRAM | Inference Peak VRAM | Extra Params |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -73,7 +73,7 @@ From [`efficiency_metrics.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/fe
 
 ## 5. Parameter Evolution & Activation Diagnostics
 
-From [`final_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/comparison_tables/final_parameters.csv) and [`final_parameters.json`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/final_parameters.json), we analyze the learned parameter values at the best validation checkpoint (Epoch 1) and training termination (Epoch 10):
+From [`final_parameters.csv`](results/comparison_tables/final_parameters.csv) and [`final_parameters.json`](results/final_parameters.json), we analyze the learned parameter values at the best validation checkpoint (Epoch 1) and training termination (Epoch 10):
 
 ### 5.1 Stage Weights, Attention Gammas, and Auxiliary Parameters
 
@@ -92,7 +92,7 @@ From [`final_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-
 1. **Dominance of Deep Stage 5 ($w_5$):** Across all configurations, the deepest ResNet stage (`layer4`) dominates distance calculation ($w_5 \approx 0.90 - 1.06$ at best epoch, increasing to $1.02 - 1.85$ by epoch 10). Intermediate stages $w_1 - w_4$ attenuate or turn negative during over-parameterized training, confirming MSENet's reliance on semantic abstractions.
 2. **Stable GeM Exponents ($p_s \approx 2.8 - 3.2$):** Starting from $p_{\text{init}} = 3.0$, the learned exponents remain strictly stable in the range $2.8 - 3.0$ at the best checkpoint, showing that an $L_3$-like spatial norm is naturally favored over simple $L_1$ average pooling ($p=1$). By epoch 10 in `GeM only`, deep stage $p_5$ increases to **3.21**, concentrating prototype representations on the most intense object features.
 3. **Contrastive Temperature Shrinkage:** The learnable temperature $\tau$ shrinks from $\tau_0 = 0.10$ down to **$\approx 0.070 - 0.074$**, creating a sharper probability distribution over pairwise cosine distances.
-4. **Empirical Justification of Signed GeM:** Diagnostics over 9.26 billion test activations in [`final_parameters.json`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/final_parameters.json) reveal:
+4. **Empirical Justification of Signed GeM:** Diagnostics over 9.26 billion test activations in [`final_parameters.json`](results/final_parameters.json) reveal:
    - **19.69% of all activations entering spatial pooling are strictly negative** (rising up to 29.7% in `layer2` and 65.3% in `layer3` for GeM+Con).
    - Negative values account for **5.24% of the total absolute activation mass**.
    - Clamping negative activations to zero (standard non-negative GeM) would have truncated one-fifth of all feature coordinates; Signed GeM successfully preserved both sides of the spectrum.
@@ -101,7 +101,7 @@ From [`final_parameters.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-
 
 ## 6. Training Progression & Learning Dynamics
 
-From [`epoch_metrics_all.csv`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/GeM_ContrastiveLoss/results/comparison_tables/epoch_metrics_all.csv), we inspect the progression across the 10 training epochs:
+From [`epoch_metrics_all.csv`](results/comparison_tables/epoch_metrics_all.csv), we inspect the progression across the 10 training epochs:
 
 ### 6.1 Validation Accuracy Progression (%)
 | Epoch | 1. Baseline | 2. GeM only | 3. Contrastive only | 4. GeM + Contrastive |

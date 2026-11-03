@@ -129,7 +129,7 @@ To understand the individual contributions and mutual interactions of these modi
 
 ## 4. Implementation Details & Hyperparameters
 
-All four variants were implemented, trained, and evaluated in the unified notebook [`Source Code.ipynb`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/Source%20Code.ipynb) on a single **NVIDIA Tesla T4 GPU (16 GB)** using PyTorch with Automatic Mixed Precision (`torch.cuda.amp.autocast`).
+All four variants were implemented, trained, and evaluated in the unified notebook [`Source Code.ipynb`](Source Code.ipynb) on a single **NVIDIA Tesla T4 GPU (16 GB)** using PyTorch with Automatic Mixed Precision (`torch.cuda.amp.autocast`).
 
 ### Hyperparameter Configuration
 
@@ -206,4 +206,4 @@ LayerNorm_LearnableTemp/
 - **Synergy with Temperature Scaling:** While learnable temperature scaling in isolation has virtually zero effect (-0.002 pp), it exhibits strong positive synergy when combined with LayerNorm, achieving the top test accuracy of **83.18%** (**+0.71 pp** over baseline, $p = 5.0 \times 10^{-6}$).
 - **Negligible Resource Overhead:** The combined model adds only 2,049 parameters (+0.018% total parameter increase) and maintains identical inference latency (**42.46 ms/episode** vs. **42.43 ms/episode** for baseline).
 
-For full empirical evaluation, statistical hypothesis tests, per-epoch trajectories, and parameter analyses, refer to [`RESULTS.md`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/LayerNorm_LearnableTemp/RESULTS.md).
+For full empirical evaluation, statistical hypothesis tests, per-epoch trajectories, and parameter analyses, refer to [`RESULTS.md`](RESULTS.md).

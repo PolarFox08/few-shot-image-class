@@ -51,18 +51,18 @@ The repository is modularly organized into dedicated experiment folders, each co
 
 | Directory | Core Novelty / Focus | Key Mechanism | Best Accuracy |
 |:---|:---|:---|:---:|
-| [`msenet_baseline/`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_baseline/) | **Canonical MSENet Baseline** | ResNet-18 multi-scale extraction, self-attention, Euclidean metric, static weights | 82.23% |
-| [`msenet_cosine/`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/) | **Metric Geometry & Scaling** | Hyperspherical $L_2$ normalization, Cosine Distance, Hybrid distance, Fixed vs. Learnable $\gamma$ | 82.97% |
-| [`msenet_DynamicWeights/`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/) | **Task-Adaptive Weighting** | Dynamic stage weighting using Fisher discriminability, query entropy, and meta-gating MLP | 83.50% |
-| [`Stacked-DW/`](file:///c:/Users/us/Downloads/few-shot-image-class/Stacked-DW/) | **Dynamic Weights + Synergies** | Dynamic Weights stacked with LayerNorm, EMA regularization, and GeM pooling | **85.30%** |
-| [`Stacked-Euclidean/`](file:///c:/Users/us/Downloads/few-shot-image-class/Stacked-Euclidean/) | **Euclidean Stacked Model** | Euclidean metric stacked with EMA, LayerNorm, and Signed GeM pooling | **85.08%** |
-| [`Stacked-Cosine/`](file:///c:/Users/us/Downloads/few-shot-image-class/Stacked-Cosine/) | **Cosine Stacked Model** | Cosine metric stacked with EMA, LayerNorm, and Signed GeM pooling | 84.53% |
-| [`Cross-Attention/`](file:///c:/Users/us/Downloads/few-shot-image-class/Cross-Attention/) | **Cross-Stage Attention** | Adjacent and Bidirectional cross-attention between consecutive ResNet stages | 83.25% |
-| [`LayerNorm_LearnableTemp/`](file:///c:/Users/us/Downloads/few-shot-image-class/LayerNorm_LearnableTemp/) | **Channel Norm & Logit Temp** | Stage-wise Layer Normalization after GAP + Softplus learnable temperature scaling | 83.18% |
-| [`GeM_ContrastiveLoss/`](file:///c:/Users/us/Downloads/few-shot-image-class/GeM_ContrastiveLoss/) | **Non-Linear Pooling & SupCon** | Learnable Generalized Mean (GeM) pooling ($p > 1$) + auxiliary Supervised Contrastive Loss | 83.06% |
-| [`5-way-ablation/`](file:///c:/Users/us/Downloads/few-shot-image-class/5-way-ablation/) | **Training Stability Ablations** | EMA weights (A4), Label Smoothing (A5), BN eval freeze (A1), $L_2$-SP (A3), Diff LR (A2) | 84.12% |
-| [`DistanceComparison/`](file:///c:/Users/us/Downloads/few-shot-image-class/DistanceComparison/) | **Metric Distance Benchmark** | Paired statistical comparison of Euclidean vs. Cosine vs. Hybrid under standard conditions | 81.94% |
-| [`plots/`](file:///c:/Users/us/Downloads/few-shot-image-class/plots/) | **Master Visualizations** | Publication-grade comparative charts, roadmaps, and gain analyses across all novelties | — |
+| [`msenet_baseline/`](msenet_baseline) | **Canonical MSENet Baseline** | ResNet-18 multi-scale extraction, self-attention, Euclidean metric, static weights | 82.23% |
+| [`msenet_cosine/`](msenet_cosine) | **Metric Geometry & Scaling** | Hyperspherical $L_2$ normalization, Cosine Distance, Hybrid distance, Fixed vs. Learnable $\gamma$ | 82.97% |
+| [`msenet_DynamicWeights/`](msenet_DynamicWeights) | **Task-Adaptive Weighting** | Dynamic stage weighting using Fisher discriminability, query entropy, and meta-gating MLP | 83.50% |
+| [`Stacked-DW/`](Stacked-DW) | **Dynamic Weights + Synergies** | Dynamic Weights stacked with LayerNorm, EMA regularization, and GeM pooling | **85.30%** |
+| [`Stacked-Euclidean/`](Stacked-Euclidean) | **Euclidean Stacked Model** | Euclidean metric stacked with EMA, LayerNorm, and Signed GeM pooling | **85.08%** |
+| [`Stacked-Cosine/`](Stacked-Cosine) | **Cosine Stacked Model** | Cosine metric stacked with EMA, LayerNorm, and Signed GeM pooling | 84.53% |
+| [`Cross-Attention/`](Cross-Attention) | **Cross-Stage Attention** | Adjacent and Bidirectional cross-attention between consecutive ResNet stages | 83.25% |
+| [`LayerNorm_LearnableTemp/`](LayerNorm_LearnableTemp) | **Channel Norm & Logit Temp** | Stage-wise Layer Normalization after GAP + Softplus learnable temperature scaling | 83.18% |
+| [`GeM_ContrastiveLoss/`](GeM_ContrastiveLoss) | **Non-Linear Pooling & SupCon** | Learnable Generalized Mean (GeM) pooling ($p > 1$) + auxiliary Supervised Contrastive Loss | 83.06% |
+| [`5-way-ablation/`](5-way-ablation) | **Training Stability Ablations** | EMA weights (A4), Label Smoothing (A5), BN eval freeze (A1), $L_2$-SP (A3), Diff LR (A2) | 84.12% |
+| [`DistanceComparison/`](DistanceComparison) | **Metric Distance Benchmark** | Paired statistical comparison of Euclidean vs. Cosine vs. Hybrid under standard conditions | 81.94% |
+| [`plots/`](plots) | **Master Visualizations** | Publication-grade comparative charts, roadmaps, and gain analyses across all novelties | — |
 
 ---
 
@@ -109,5 +109,5 @@ All experiments follow a strictly controlled protocol to ensure fair, statistica
 
 ## 5. Comprehensive Results & Visualizations
 
-- For the complete Master Leaderboard, full-scale numerical comparisons, paired statistical win-rates, and category breakdowns, see [`RESULTS.md`](file:///c:/Users/us/Downloads/few-shot-image-class/RESULTS.md) (and [`results_table.md`](file:///c:/Users/us/Downloads/few-shot-image-class/results_table.md)).
-- High-resolution comparative plots are cataloged in [`plots/`](file:///c:/Users/us/Downloads/few-shot-image-class/plots/).
+- For the complete Master Leaderboard, full-scale numerical comparisons, paired statistical win-rates, and category breakdowns, see [`RESULTS.md`](RESULTS.md) (and [`results_table.md`](results_table.md)).
+- High-resolution comparative plots are cataloged in [`plots/`](plots).

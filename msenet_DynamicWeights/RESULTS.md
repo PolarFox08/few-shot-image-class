@@ -16,7 +16,7 @@ All three models were trained under identical conditions from a shared ResNet-18
 
 *Reference Baselines on MiniImageNet (5-way 5-shot):*
 - **Original MSENet Baseline (Static Euclidean):** ~82.24% – 82.48%
-- **Static Cosine MSENet ([`msenet_cosine`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/RESULTS.md)):** 82.97%
+- **Static Cosine MSENet ([`msenet_cosine`](../msenet_cosine/RESULTS.md)):** 82.97%
 - **Cosine + Dynamic Weights (Ours):** **83.50%** (**+1.26 pp** over paper baseline, **+0.53 pp** over static cosine)
 
 ---
@@ -131,27 +131,27 @@ All metrics were benchmarked on a single **NVIDIA Tesla T4 GPU (16 GB)** using P
 
 ## 6. Generated Plots & Visualizations
 
-All high-resolution figures generated during evaluation are saved in [`msenet_DynamicWeights/results/plots/`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots):
+All high-resolution figures generated during evaluation are saved in [`msenet_DynamicWeights/results/plots/`](results/plots):
 
-1. **[`dynamic_weighting_acc_comparison.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/dynamic_weighting_acc_comparison.png):**  
+1. **[`dynamic_weighting_acc_comparison.png`](results/plots/dynamic_weighting_acc_comparison.png):**  
    Bar chart comparing test accuracy across Euclidean, Cosine, and Hybrid metrics with 95% confidence intervals and validation benchmarks.
-2. **[`paired_episode_level_acc_differences.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/paired_episode_level_acc_differences.png):**  
+2. **[`paired_episode_level_acc_differences.png`](results/plots/paired_episode_level_acc_differences.png):**  
    Distribution of paired episode differences showing the clear rightward shift for `Cosine - Euclidean` and `Hybrid - Euclidean`.
-3. **[`mean_dyn_stage_weights_by_proto_distance.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/mean_dyn_stage_weights_by_proto_distance.png):**  
+3. **[`mean_dyn_stage_weights_by_proto_distance.png`](results/plots/mean_dyn_stage_weights_by_proto_distance.png):**  
    Grouped bar plot showing stage weight distribution from `maxpool` to `layer4` across distance metrics.
-4. **[`episode_wise_acc.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/episode_wise_acc.png):**  
+4. **[`episode_wise_acc.png`](results/plots/episode_wise_acc.png):**  
    Episode-by-episode accuracy trajectories across all 600 test tasks.
-5. **[`inference_time_per_episode.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/inference_time_per_episode.png):**  
+5. **[`inference_time_per_episode.png`](results/plots/inference_time_per_episode.png):**  
    Per-episode latency comparison showing comparable, near-instantaneous execution times (~89–93 ms).
-6. **[`peak_gpu_memory_comp.png`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/plots/peak_gpu_memory_comp.png):**  
+6. **[`peak_gpu_memory_comp.png`](results/plots/peak_gpu_memory_comp.png):**  
    Peak VRAM utilization comparison confirming minimal memory overhead.
 
 ---
 
 ## 7. CSV Results Index
 
-For raw data and custom tables, refer to the exported CSV files in [`msenet_DynamicWeights/results/`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results):
-- [`dynamic_distance_summary.csv`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/dynamic_distance_summary.csv): Full summary including accuracy, CIs, loss, timing, and memory.
-- [`dynamic_distance_paper_table.csv`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/dynamic_distance_paper_table.csv): Paper-ready comparative table.
-- [`dynamic_distance_paired_comparisons.csv`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/dynamic_distance_paired_comparisons.csv): Win/tie/loss rates and mean differences across paired episodes.
-- [`dynamic_stage_weight_summary.csv`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_DynamicWeights/results/dynamic_stage_weight_summary.csv): Mean and standard deviation of stage weights across episodes.
+For raw data and custom tables, refer to the exported CSV files in [`msenet_DynamicWeights/results/`](results):
+- [`dynamic_distance_summary.csv`](results/dynamic_distance_summary.csv): Full summary including accuracy, CIs, loss, timing, and memory.
+- [`dynamic_distance_paper_table.csv`](results/dynamic_distance_paper_table.csv): Paper-ready comparative table.
+- [`dynamic_distance_paired_comparisons.csv`](results/dynamic_distance_paired_comparisons.csv): Win/tie/loss rates and mean differences across paired episodes.
+- [`dynamic_stage_weight_summary.csv`](results/dynamic_stage_weight_summary.csv): Mean and standard deviation of stage weights across episodes.

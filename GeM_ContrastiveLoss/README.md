@@ -241,6 +241,6 @@ GeM_ContrastiveLoss/
 ## 7. Reproducibility Guide
 
 To reproduce these experiments:
-1. Open [`Source Code.ipynb`](file:///c:/Ashwin/College/Semester-5/DL Lab/few-shot-image-class/GeM_ContrastiveLoss/Source%20Code.ipynb) on Kaggle or a GPU workstation with Python 3.10+ and PyTorch 2.0+ (CUDA enabled).
+1. Open [`Source Code.ipynb`](../DL Lab/few-shot-image-class/GeM_ContrastiveLoss/Source%20Code.ipynb) on Kaggle or a GPU workstation with Python 3.10+ and PyTorch 2.0+ (CUDA enabled).
 2. Set `USE_IMAGENET_PRETRAINED = True`, `DISTANCE_METRIC = 'euclidean'`, and run all cells.
 3. The code will execute all four runs sequentially under fixed seeds (`SEED=42`, `VAL_SEED=2024`, `TEST_SEED_5SHOT=2025`, `TEST_SEED_1SHOT=2026`, `BENCH_SEED=2027`) and output identical comparison tables and figures to `results/`.

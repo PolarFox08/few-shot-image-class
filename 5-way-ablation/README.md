@@ -186,4 +186,4 @@ The experimental parameters and runtime environment are documented below:
 - **Catastrophic Failure — Discriminative Learning Rates (A2):** Restricting backbone learning rates severely starves representation adaptation, resulting in a **-3.34 pp** drop (78.89%) and late-epoch training collapse.
 - **Invariance — Frozen BatchNorm (A1) and $L_2$-SP (A3):** Neither A1 nor A3 meaningfully alters performance under early checkpointing (Epoch 1), as parameter drift has not yet accumulated significantly at Epoch 1.
 
-For comprehensive tables, epoch-by-epoch progressions, paired statistical evaluations, and parameter drift analysis, see [`RESULTS.md`](file:///c:/Ashwin/College/Semester-5/DL Lab/few-shot-image-class/5-way-ablation/RESULTS.md).
+For comprehensive tables, epoch-by-epoch progressions, paired statistical evaluations, and parameter drift analysis, see [`RESULTS.md`](../DL Lab/few-shot-image-class/5-way-ablation/RESULTS.md).

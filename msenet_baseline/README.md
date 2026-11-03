@@ -109,10 +109,10 @@ Through empirical analysis of the baseline training dynamics, we identified seve
 
 ## 4. Execution Details
 
-The baseline notebook [`msenet-base1-final.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_baseline/msenet-base1-final.ipynb) runs the complete training pipeline:
+The baseline notebook [`msenet-base1-final.ipynb`](msenet-base1-final.ipynb) runs the complete training pipeline:
 - **Dataset:** MiniImageNet ($84 \times 84$, 64 train, 16 val, 20 test classes)
 - **Episodes:** 360 train episodes/epoch (30-way 5-shot), 600 validation episodes/epoch (5-way 5-shot), 600 test episodes (5-way 5-shot)
 - **Optimizer:** Adam (backbone lr: $10^{-4}$, stage weights lr: $5 \times 10^{-3}$)
 - **Checkpointing:** Validated after every epoch; best validation checkpoint loaded for final evaluation on held-out test classes.
 
-For complete numerical outputs, epoch progression, and final parameter values from this run, see [`RESULTS.md`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_baseline/RESULTS.md).
+For complete numerical outputs, epoch progression, and final parameter values from this run, see [`RESULTS.md`](RESULTS.md).

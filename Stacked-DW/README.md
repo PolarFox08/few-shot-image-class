@@ -221,4 +221,4 @@ Stacked-DW/
 - **Statistically Significant Advantage:** Both D1 and D2 demonstrate paired 95% confidence intervals strictly excluding zero ($[+2.12\text{ pp}, +2.73\text{ pp}]$ for D1 vs. D0; $[+2.08\text{ pp}, +2.70\text{ pp}]$ for D2 vs. D0).
 - **Minimal Hardware Overhead:** LayerNorm and EMA add zero noticeable latency (+0.05 ms) and only +2,048 parameters. GeM pooling adds only 5 scalar parameters with modest compute overhead (+5.33 ms/ep latency), operating at high throughput (>23 tasks/s).
 
-For comprehensive per-epoch traces, dynamic weight distributions, parameter trajectories, and detailed hardware benchmarks, refer to [`RESULTS.md`](file:///c:/Ashwin/College/Semester-5/DL%20Lab/few-shot-image-class/Stacked-DW/RESULTS.md).
+For comprehensive per-epoch traces, dynamic weight distributions, parameter trajectories, and detailed hardware benchmarks, refer to [`RESULTS.md`](RESULTS.md).

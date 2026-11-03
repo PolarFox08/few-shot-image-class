@@ -80,10 +80,10 @@ This folder contains 4 distinct experimental configurations corresponding to the
 
 | Notebook File | Distance Metric | Attention Gamma $\gamma$ | Learnable Parameters |
 |:---|:---|:---|:---|
-| [`mse-withCosine_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_fixedGamma.ipynb) | Cosine Distance ($d_{\cos}$) | Fixed ($\gamma_1 = \gamma_2 = 0.2$) | Backbone, Stage Weights ($w$), $T_{\cos}$ |
-| [`mse-withCosine_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_learnableGamma.ipynb) | Cosine Distance ($d_{\cos}$) | Learnable ($\gamma_1, \gamma_2$ init 0.2) | Backbone, Stage Weights ($w$), $T_{\cos}$, $\gamma_1, \gamma_2$ |
-| [`mse-withHybrid_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_fixedGamma.ipynb) | Hybrid ($0.5 \cdot d_{\text{euc}} + 0.5 \cdot d_{\cos}$) | Fixed ($\gamma_1 = \gamma_2 = 0.2$) | Backbone, Stage Weights ($w$), $T_{\cos}$ |
-| [`mse-withHybrid_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_learnableGamma.ipynb) | Hybrid ($0.5 \cdot d_{\text{euc}} + 0.5 \cdot d_{\cos}$) | Learnable ($\gamma_1, \gamma_2$ init 0.2) | Backbone, Stage Weights ($w$), $T_{\cos}$, $\gamma_1, \gamma_2$ |
+| [`mse-withCosine_fixedGamma.ipynb`](mse-withCosine_fixedGamma.ipynb) | Cosine Distance ($d_{\cos}$) | Fixed ($\gamma_1 = \gamma_2 = 0.2$) | Backbone, Stage Weights ($w$), $T_{\cos}$ |
+| [`mse-withCosine_learnableGamma.ipynb`](mse-withCosine_learnableGamma.ipynb) | Cosine Distance ($d_{\cos}$) | Learnable ($\gamma_1, \gamma_2$ init 0.2) | Backbone, Stage Weights ($w$), $T_{\cos}$, $\gamma_1, \gamma_2$ |
+| [`mse-withHybrid_fixedGamma.ipynb`](mse-withHybrid_fixedGamma.ipynb) | Hybrid ($0.5 \cdot d_{\text{euc}} + 0.5 \cdot d_{\cos}$) | Fixed ($\gamma_1 = \gamma_2 = 0.2$) | Backbone, Stage Weights ($w$), $T_{\cos}$ |
+| [`mse-withHybrid_learnableGamma.ipynb`](mse-withHybrid_learnableGamma.ipynb) | Hybrid ($0.5 \cdot d_{\text{euc}} + 0.5 \cdot d_{\cos}$) | Learnable ($\gamma_1, \gamma_2$ init 0.2) | Backbone, Stage Weights ($w$), $T_{\cos}$, $\gamma_1, \gamma_2$ |
 
 ---
 
@@ -106,4 +106,4 @@ All 4 notebooks share an identical, strictly controlled training protocol to ens
 - **Initial Cosine Temperature ($T_{\cos}$):** $10.0$.
 - **Acceleration:** Automatic Mixed Precision (`torch.cuda.amp.autocast`) on NVIDIA Tesla T4.
 
-For detailed quantitative results, epoch-wise loss/accuracy tables, learned parameter values, and comparative analysis, see [`RESULTS.md`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/RESULTS.md).
+For detailed quantitative results, epoch-wise loss/accuracy tables, learned parameter values, and comparative analysis, see [`RESULTS.md`](RESULTS.md).

@@ -8,10 +8,10 @@ This document details the quantitative outcomes obtained from training and evalu
 
 | Configuration / Notebook | Distance Metric | Attention Gamma ($\gamma$) | Final Test Acc (5w-5s) | Best Val Acc | Best Epoch | Final Train Loss | Final Val Acc | Final $\gamma_1$ (Support) | Final $\gamma_2$ (Query) | Final Learned Stage Weights $[w_0, w_1, w_2, w_3, w_4]$ |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
-| **Cosine Distance (Fixed $\gamma$)**<br>[`mse-withCosine_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_fixedGamma.ipynb) | Cosine ($d_{\cos}$) | Fixed | **82.97%** | **83.07%** | Epoch 1 | 0.0010 | 79.09% | 0.2000 | 0.2000 | `[0.3358, 0.4047, 0.5177, 0.7866, 1.8535]` |
-| **Cosine Distance (Learnable $\gamma$)**<br>[`mse-withCosine_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_learnableGamma.ipynb) | Cosine ($d_{\cos}$) | Learnable | **82.15%** | 81.67% | Epoch 1 | 0.0009 | 78.57% | 0.7163 | 0.6199 | `[0.5332, 0.5326, 0.6909, 0.9469, 1.7756]` |
-| **Hybrid Distance (Fixed $\gamma$)**<br>[`mse-withHybrid_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_fixedGamma.ipynb) | Hybrid ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$) | Fixed | **82.66%** | 82.42% | Epoch 1 | 0.0017 | 79.60% | 0.2000 | 0.2000 | `[0.1609, 0.1861, 0.2427, 0.3400, 1.3757]` |
-| **Hybrid Distance (Learnable $\gamma$)**<br>[`mse-withHybrid_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_learnableGamma.ipynb) | Hybrid ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$) | Learnable | **81.98%** | 82.08% | Epoch 1 | 0.0015 | 78.58% | 0.4020 | 1.2070 | `[0.4055, 0.4633, 0.4367, 0.5328, 1.3945]` |
+| **Cosine Distance (Fixed $\gamma$)**<br>[`mse-withCosine_fixedGamma.ipynb`](mse-withCosine_fixedGamma.ipynb) | Cosine ($d_{\cos}$) | Fixed | **82.97%** | **83.07%** | Epoch 1 | 0.0010 | 79.09% | 0.2000 | 0.2000 | `[0.3358, 0.4047, 0.5177, 0.7866, 1.8535]` |
+| **Cosine Distance (Learnable $\gamma$)**<br>[`mse-withCosine_learnableGamma.ipynb`](mse-withCosine_learnableGamma.ipynb) | Cosine ($d_{\cos}$) | Learnable | **82.15%** | 81.67% | Epoch 1 | 0.0009 | 78.57% | 0.7163 | 0.6199 | `[0.5332, 0.5326, 0.6909, 0.9469, 1.7756]` |
+| **Hybrid Distance (Fixed $\gamma$)**<br>[`mse-withHybrid_fixedGamma.ipynb`](mse-withHybrid_fixedGamma.ipynb) | Hybrid ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$) | Fixed | **82.66%** | 82.42% | Epoch 1 | 0.0017 | 79.60% | 0.2000 | 0.2000 | `[0.1609, 0.1861, 0.2427, 0.3400, 1.3757]` |
+| **Hybrid Distance (Learnable $\gamma$)**<br>[`mse-withHybrid_learnableGamma.ipynb`](mse-withHybrid_learnableGamma.ipynb) | Hybrid ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$) | Learnable | **81.98%** | 82.08% | Epoch 1 | 0.0015 | 78.58% | 0.4020 | 1.2070 | `[0.4055, 0.4633, 0.4367, 0.5328, 1.3945]` |
 
 *Baseline reference:* Original MSENet baseline on MiniImageNet 5-way 5-shot reports ~82.24% – 82.48%.
 
@@ -20,7 +20,7 @@ This document details the quantitative outcomes obtained from training and evalu
 ## 2. Detailed Configuration Breakdowns
 
 ### 2.1 Configuration 1: Cosine Distance with Fixed Gamma
-- **File:** [`mse-withCosine_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_fixedGamma.ipynb)
+- **File:** [`mse-withCosine_fixedGamma.ipynb`](mse-withCosine_fixedGamma.ipynb)
 - **Distance Metric:** Cosine Distance ($d_{\cos} = T_{\cos} \cdot (1 - \operatorname{Sim}_{\cos})$)
 - **Gamma Setting:** Fixed ($\gamma_1 = 0.2, \gamma_2 = 0.2$, `gammalearnable=False`)
 - **Initial Stage Weights:** $[1.0, 1.1, 1.2, 1.3, 1.4]$
@@ -55,7 +55,7 @@ This document details the quantitative outcomes obtained from training and evalu
 ---
 
 ### 2.2 Configuration 2: Cosine Distance with Learnable Gamma
-- **File:** [`mse-withCosine_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withCosine_learnableGamma.ipynb)
+- **File:** [`mse-withCosine_learnableGamma.ipynb`](mse-withCosine_learnableGamma.ipynb)
 - **Distance Metric:** Cosine Distance ($d_{\cos} = T_{\cos} \cdot (1 - \operatorname{Sim}_{\cos})$)
 - **Gamma Setting:** Learnable ($\gamma_1, \gamma_2$ initialized to $0.2$, `gammalearnable=True`, $\text{lr}=0.005$)
 - **Initial Stage Weights:** $[1.0, 1.1, 1.2, 1.3, 1.4]$
@@ -90,7 +90,7 @@ This document details the quantitative outcomes obtained from training and evalu
 ---
 
 ### 2.3 Configuration 3: Hybrid Distance with Fixed Gamma
-- **File:** [`mse-withHybrid_fixedGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_fixedGamma.ipynb)
+- **File:** [`mse-withHybrid_fixedGamma.ipynb`](mse-withHybrid_fixedGamma.ipynb)
 - **Distance Metric:** Hybrid Distance ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$)
 - **Gamma Setting:** Fixed ($\gamma_1 = 0.2, \gamma_2 = 0.2$, `gammalearnable=False`)
 - **Initial Stage Weights:** $[1.0, 1.1, 1.2, 1.3, 1.4]$
@@ -125,7 +125,7 @@ This document details the quantitative outcomes obtained from training and evalu
 ---
 
 ### 2.4 Configuration 4: Hybrid Distance with Learnable Gamma
-- **File:** [`mse-withHybrid_learnableGamma.ipynb`](file:///c:/Users/us/Downloads/few-shot-image-class/msenet_cosine/mse-withHybrid_learnableGamma.ipynb)
+- **File:** [`mse-withHybrid_learnableGamma.ipynb`](mse-withHybrid_learnableGamma.ipynb)
 - **Distance Metric:** Hybrid Distance ($0.5 d_{\text{euc}} + 0.5 d_{\cos}$)
 - **Gamma Setting:** Learnable ($\gamma_1, \gamma_2$ initialized to $0.2$, `gammalearnable=True`, $\text{lr}=0.005$)
 - **Initial Stage Weights:** $[1.0, 1.1, 1.2, 1.3, 1.4]$
