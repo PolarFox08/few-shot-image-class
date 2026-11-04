@@ -140,6 +140,6 @@ msenet_DynamicWeights/
 
 - **Top Performer:** Cosine Distance + Dynamic Stage Weighting achieves **83.50%** test accuracy on MiniImageNet (5-way 5-shot), outperforming original MSENet baseline (~82.24%) by **+1.26 pp** and static Cosine MSENet (82.97%) by **+0.53 pp**.
 - **Paired Advantage:** In head-to-head episode comparison, Cosine beats Euclidean in **52.5%** of test episodes (+0.93 pp mean margin).
-- **Negligible Overhead:** Dynamic weighting adds only 4,772 parameters (+0.04% parameter overhead) and runs in **<90 ms per episode**.
+- **Negligible Overhead:** Dynamic weighting adds only 467 parameters (+0.004% parameter overhead; 11,618,587 vs. 11,618,120 for the baseline) and runs in **<95 ms per episode** in these notebooks.
 
 For detailed per-epoch progression, paired win-rates, stage weight distributions, and deep-dive discussions, see [`RESULTS.md`](RESULTS.md).

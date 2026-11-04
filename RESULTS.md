@@ -128,9 +128,9 @@ Documenting negative results is essential for research integrity:
 | **MSENet Baseline** | — | — | 32.24 ms | 3,691 MB |
 | **LayerNorm** | +2,048 | +0.02% | 42.56 ms | 3,783 MB |
 | **GeM Pooling** | +5 | +0.00% | 38.25 ms | 4,474 MB |
-| **Dynamic Weights Module** | +4,772 | +0.04% | 89.29 ms | 280 MB |
+| **Dynamic Weights Module (DW only, D0)** | +466 | +0.004% | 37.11 ms | 3,888 MB |
 | **EMA Regularization** | 0 (runtime only) | 0.00% | 32.25 ms | 3,735 MB |
-| **Stacked DW (Best: 85.30%)** | +6,825 | +0.06% | ~91.50 ms | ~450 MB |
+| **Stacked DW (Best: 85.30%, D1)** | +2,514 | +0.02% | 37.16 ms | 3,929 MB |
 
 *Note on Latency:* Standard MSENet runs without batch chunking on Tesla T4; Dynamic Weights notebooks include full episode confidence and Fisher ratio computation during evaluation, operating well under 100 ms per 5-way 5-shot episode (over 10 episodes/second).
 
