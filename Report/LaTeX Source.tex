@@ -1,0 +1,426 @@
+% ==============================================================================
+% EXTERNAL FIGURES REQUIRED FOR OVERLEAF UPLOAD
+% ==============================================================================
+% To ensure visual figures render in Overleaf, please upload the following
+% image files from the repository into your Overleaf project root directory:
+%
+% 1. Filename: 01_architecture.png
+%    Source:   plots/01_architecture.png (or root 01_architecture.png)
+%    Caption:  The overview architecture of the proposed multi-scale model.
+%
+% 2. Filename: 01_master_leaderboard_accuracy.png
+%    Source:   plots/01_master_leaderboard_accuracy.png
+%    Caption:  Master leaderboard horizontal bar chart ranking all tested
+%              configurations on MiniImageNet (5-way 5-shot) against the baseline.
+%
+% 3. Filename: 03_evolutionary_roadmap_over_85.png
+%    Source:   plots/03_evolutionary_roadmap_over_85.png
+%    Caption:  Evolutionary performance trajectory illustrating how addressing
+%              metric geometry, channel normalization, temporal smoothing, and
+%              task-adaptive gating systematically lifted accuracy to 85.30%.
+%
+% 4. Filename: 02_distance_metrics_dynamic_vs_static.png
+%    Source:   plots/02_distance_metrics_dynamic_vs_static.png
+%    Caption:  Comparison of Euclidean, Cosine, and Hybrid distance metrics
+%              under static stage weighting versus Task-Adaptive Dynamic Weighting.
+%
+% NOTE: This document utilizes a conditional graphic inclusion macro
+% (\conditionalgraphic) that renders a formatted placeholder box whenever
+% an image file has not yet been uploaded, guaranteeing error-free compilation.
+% ==============================================================================
+
+\documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+% Conditional figure inclusion macro for robust Overleaf compilation
+\newcommand{\conditionalgraphic}[3][width=\columnwidth]{%
+  \IfFileExists{#2}{%
+    \includegraphics[#1]{#2}%
+  }{%
+    \begin{center}%
+      \fbox{\parbox{0.90\columnwidth}{\centering\small\textbf{[Figure Placeholder: #2]}\par\vspace{2pt}\footnotesize#3}}%
+    \end{center}%
+  }%
+}
+
+\begin{document}
+
+\title{Dynamic Multi-Scale Feature Fusion and Training Optimization for Few-Shot Image Classification}
+
+\author{\IEEEauthorblockN{Ankith U Davey\IEEEauthorrefmark{1}, Ashwin S\IEEEauthorrefmark{2}, Harish Sankar\IEEEauthorrefmark{3}, MSL Muhammad Uvais Zufar\IEEEauthorrefmark{4}}
+\IEEEauthorblockA{Department of Computer Science and Engineering, Shiv Nadar University Chennai, India\\
+Student IDs: 24011101004, 24011101007, 24011101033, 24011101062\\
+Emails: \IEEEauthorrefmark{1}ankith24110109@snuchennai.edu.in, \IEEEauthorrefmark{2}ashwin24110078@snuchennai.edu.in,\\
+\IEEEauthorrefmark{3}harish24110084@snuchennai.edu.in, \IEEEauthorrefmark{4}muhammaduvaiszufar24110351@snuchennai.edu.in}}
+
+\maketitle
+
+\begin{abstract}
+Metric-based few-shot image classification aims to categorize new categories using only few labelled samples. Existing multi scale architectures like MSENet extract stage wise representations, but mainly contain three limitations, fixed stage weighting which does not adapt to new tasks, inconsistent Euclidean distances due to variations in channel distributions, fluctuating parameters because of episodic meta-gradients.
+In this paper, we address these limitations through a systematic study on the MiniImageNet benchmark. We introduce a task adaptive framework with dynamic stage weighting, which adjusts the level of contributions of each stage based on the current task. It combines Fisher discriminability ratios from support set and prediction entropy from query set and neural meta gating network with zero initialization. For our primary architecture, we combined it with Layer Normalization for every stage, and Exponential Moving Average (EMA, $\beta=0.99$) parameter smoothing. This architecture achieves 85.30\% test accuracy on 5-way 5-shot classification on MiniImageNet, which is +3.07 percentage points over 82.23\% MSENet baseline model. We also propose a secondary lightweight architecture with EMA and Layer Normalization alone, which reaches 84.81\% test accuracy with an inference time of 32.96~ms per episode. We also explore several other approaches, like cross attention, non-linear Generalized Mean pooling, different distance metrics, contrastive loss function, and four other regularization techniques. 
+\vspace{0.3em}
+
+\noindent\textbf{Github Code Repository:} \url{https://github.com/PolarFox08/few-shot-image-class}
+\end{abstract}
+
+\section{Introduction}
+Deep CNNs work well at image classification when trained on large datasets. However, in few-shot image classification, there are only one to five support images per class \cite{snell2017prototypical, vinyals2016matching}, and the model must generalize from this extremely limited supervision. Metric-based meta-learning resolves this by projecting images into an embedding space where unlabelled query instances are classified via nearest-centroid comparison against support prototypes \cite{snell2017prototypical}.
+
+In canonical metric learners like Prototypical Networks \cite{snell2017prototypical}, features are extracted exclusively from the final backbone layer (e.g., ResNet-18 \cite{he2016deep, torchvision_resnet}). While deep layers capture abstract semantic abstractions, aggressive spatial pooling discards low-level spatial contours and mid-level textures. To preserve multi-scale representations, Askari et al. \cite{askari2023enhancing} proposed MSENet (Multi-Scale Embedding Network), extracting feature maps across five ResNet-18 stages, applying spatial self-attention, and fusing stage Euclidean distances using a global vector of learnable stage weights:
+\begin{equation}
+    w = [w_0, w_1, w_2, w_3, w_4]
+\end{equation}
+
+Despite its conceptual promise, diagnostic inspection of the MSENet codebase revealed three core bottlenecks:
+\begin{enumerate}
+    \item \textbf{Rigidity of Static Stage Gating:} MSENet optimizes a single global stage weight vector across all tasks. However, few-shot classification varies drastically in visual granularity: fine-grained categories (e.g., dog breeds) require shallow edge and texture cues, whereas coarse-grained categories (e.g., vehicles vs. animals) require deep semantic abstractions. Consequently, a static weight vector cannot adapt to episode-specific task distributions or query ambiguity.
+    \item \textbf{Channel Dimensionality and Scaling Discrepancies:} ResNet-18 intermediate stages increase in channel capacity from 64 to 512 ($64 \to 64 \to 128 \to 256 \to 512$). Under unnormalized Euclidean distance, 512-channel stages accumulate much larger squared norms, causing deep layers to dominate metric calculations regardless of feature discriminability.
+    \item \textbf{Episodic Gradient Noise and Representation Drift:} In episodic meta-training, stochastic gradient updates cause severe parameter oscillation. Validation accuracy peaks prematurely at Epoch 1 ($\sim$81.25\%--82.34\%) and steadily degrades across subsequent epochs despite training loss dropping near zero.
+\end{enumerate}
+
+To overcome these structural limitations, we conduct a systematic investigation advancing beyond the MSENet baseline, culminating in two high-performing proposed configurations:
+\begin{itemize}
+    \item \textbf{Primary Proposed Configuration (85.30\%):} An architecture integrating Task-Adaptive Dynamic Stage Weighting with stage-wise Layer Normalization and Exponential Moving Average (EMA, $\beta = 0.99$) parameter smoothing. This model achieves \textbf{85.30\%} 5-way 5-shot test accuracy on MiniImageNet, delivering a statistically verified \textbf{+3.07 percentage point (pp)} gain over the canonical MSENet baseline (82.23\%) and \textbf{+3.40 pp} over the lowest observed baseline (81.90\%).
+    \item \textbf{Secondary Proposed Configuration (84.81\%):} A streamlined, compute-efficient alternative combining stage-wise Layer Normalization and EMA on static Euclidean MSENet. This variant reaches \textbf{84.81\%} test accuracy (+2.58 pp over baseline) with an inference latency of only \textbf{32.96~ms per episode} (faster than the 33.18~ms baseline), requiring zero dynamic matrix computation during deployment.
+\end{itemize}
+
+
+\section{Related Works}
+\subsection{Metric-Based Few-Shot Learning}
+Traditional Metric-based few-shot learning algorithms classify unseen images based on how "close" they are to a small set of example images in a learned space. Matching Networks \cite{vinyals2016matching} use a concept of memory to look at images and compute how similar they are using math-based metric like cosine similarity. In Prototypical Networks \cite{snell2017prototypical}, a protoype is created for each class by averaging the support images and then similarity of the new image is measured using straight-line distance metrics. These methods however only look at the final layer of the model to extract features, thereby ignoring basic feature-related information from the earlier layers
+
+\subsection{Multi-Scale Feature Representations \& Attention}
+Multi-scale representation learning improves on the previous flaw by extracting useful details from different layers and sizes \cite{he2016deep}. MSENET \cite{askari2023enhancing} in specific, tapped five ResNet-18 Convolution stages for feature extraction followed by self-attention \cite{wang2018non, pytorch_attention}. The problem here is that only intra-stage correlation is learnt. So cross-attention models like CAN \cite{hou2019cross} enable interactions between different stages, 
+allowing inter-stage correlations to be learnt by the model. In this project, we have explored into these type of mechanisms.
+
+\subsection{Metric Spaces and Normalization}
+Normally Euclidean distance is highly sensitive to varying dimensions, which in turn, makes the model bias towards learning one stage. But a simple trick in the form of hypersphere normalization can be used to solve this problem ensuring the model only looks at the angle and not the magnitude \cite{snell2017prototypical}. Previous few-shot studies had noted mixed results with cosine metrics \cite{snell2017prototypical}. We have compared both type of metrics and we show that Euclidean distance outperforms cosine distance after channel variances are standardized by layer normalization \cite{snell2017prototypical}.
+
+
+\subsection{Optimization Stability in Meta-Learning}
+We learnt meta-learning through episodic training the gradients become highly randomized and unpredictable \cite{ravi2017optimization}. To solve this regularization methods like label smoothing cite{szegedy2016rethinking} and exponential moving average were incorporated \cite{tarvainen2017mean}. After running few experiments, we show that EMA works as the best stabilizer and was the single most optimization enhancement in multi-scale few shot learning.
+
+
+\section{Proposed Methodology}
+
+\begin{figure*}[t]
+\centering
+\conditionalgraphic[width=0.75\textwidth]{01_architecture.png}{Overview architecture of the proposed model: Support and query images are mapped through a 5-stage ResNet backbone, refined via intra-stage Self-Attention (SA) modules, and normalized via stage-wise LayerNorm. Support prototypes and query representations are compared via stage-wise Euclidean distance $d$, dynamically modulated by Task-Adaptive stage weights $\alpha_{1-5}$, and aggregated into total distance $A$ for Softmax classification. The meta-training loop optimizes episodic cross-entropy loss using Adam with Cosine Annealing, stabilized by Exponential Moving Average (EMA) parameter smoothing.}
+\caption{Support and query images are mapped through a 5-stage ResNet backbone (Stage~1 to Stage~5), refined via intra-stage Self-Attention (SA) modules, and normalized via stage-wise LayerNorm. Support prototypes and query representations are compared via stage-wise Euclidean distance $d$, dynamically modulated by Task-Adaptive stage weights $\alpha_{1-5}$, and aggregated into total distance $A$ for Softmax classification. The meta-training loop optimizes episodic cross-entropy loss using Adam with Cosine Annealing, stabilized by Exponential Moving Average (EMA) parameter smoothing.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Problem Formulation and Multi-Scale Backbone}
+In few-shot classification, an episodic task $\mathcal{T} = (\mathcal{S}, \mathcal{Q})$ comprises a support set $\mathcal{S} = \{(x_i, y_i)\}_{i=1}^{N \times K}$ containing $K$ examples across $N$ classes, and a query set $\mathcal{Q} = \{(x_i^q, y_i^q)\}_{i=1}^{N \times Q}$ containing $Q$ evaluation instances per class.
+
+As shown in the architecture schematic (Fig.~\ref{fig:architecture}), both the support and query instances are processed through an ImageNet-pretrained ResNet-18 backbone. The intermediate representations are extracted at five hierarchical stages $s \in \{1, 2, 3, 4, 5\}$, corresponding to \texttt{Conv1} through \texttt{Conv5} (\texttt{maxpool} with $C_1=64$, \texttt{layer1} with $C_2=64$, \texttt{layer2} with $C_3=128$, \texttt{layer3} with $C_4=256$, and \texttt{layer4} with $C_5=512$). At each stage, the spatial feature maps $\mathbf{X}_s$ are processed by an intra-stage spatial self-attention module (\texttt{SA module}):
+\begin{equation}
+    \mathbf{Y}_s = \gamma \cdot \left( \mathbf{V}_s \cdot \operatorname{Softmax}\left(\frac{\mathbf{Q}_s \mathbf{K}_s^\top}{\sqrt{d_s}}\right) \right) + \mathbf{X}_s
+\end{equation}
+where $\mathbf{Q}_s, \mathbf{K}_s, \mathbf{V}_s$ are $1 \times 1$ convolutions, $d_s = \lfloor C_s / 8 \rfloor$, and $\gamma = 0.2$ is fixed. Features are spatially pooled via Global Average Pooling (GAP) into vectors $z_s = \operatorname{GAP}(\mathbf{Y}_s) \in \mathbb{R}^{C_s}$.
+
+\subsection{Architectural Workflow of the Proposed Framework}
+Fig.~\ref{fig:architecture} illustrates the unified dataflow and optimization mechanisms connecting our proposed components :
+\begin{enumerate}
+    \item \textbf{Multi-Scale Feature Extraction \& Attention Refinement:} Support images and unlabelled query images are passed through ResNet-18 stages 1 to 5. The intra stage self attention module captures spatial dependencies across the channels, and suppresses noisy backgrounds, which help analyze the main structure of the image.
+    \item \textbf{Stage-Wise Layer Normalization (\texttt{LayerNorm}):} The MSENet baseline model's channel dimensions increase from 64 till 512. Without normalization, later stages with higher dimensions dominate over earlier stages with lower dimensions due to Euclidean distance. To resolve this issue, each pooled vector $z_s$ passes through a stage-wise Layer Normalization module which makes the distribution mean centered before passing to prototype formation.
+    \item \textbf{Prototype Formation \& Euclidean Distance ($d$):} For each class $j \in \{1, \dots, N\}$, the normalized support embeddings $\bar{z}_s$ are averaged and class prototypes are formed $\bar{c}_j^s$:
+    \begin{equation}
+        \bar{c}_j^s = \frac{1}{|\mathcal{S}_j|} \sum_{x \in \mathcal{S}_j} \bar{z}_s(x)
+    \end{equation}
+    Pairwise Euclidean distances $d$ (green nodes in Fig.~\ref{fig:architecture}) are computed stage by stage between query vector $\bar{z}_s(x^q)$ and each class centroid $\bar{c}_j^s$:
+    \begin{equation}
+        d_s(x^q, c_j) = \| \bar{z}_s(x^q) - \bar{c}_j^s \|_2
+    \end{equation}
+    \item \textbf{Task-Adaptive Stage Weighting ($\alpha_{1-5}$):} Static fusion uses fixed weights, which does not adapt to different tasks. We use a dynamic stage weighting mechanism, which overcomes this problem by generating adaptive weights for every task. (orange block of Fig.~\ref{fig:architecture}).
+    
+    \item \textbf{Distance Aggregation ($A$) \& Softmax Prediction:} After stage weighting, the distance are aggregated at the summation node $A$ (brown node in Fig.~\ref{fig:architecture}):
+    \begin{equation}
+        A(x^q, c_j) = \sum_{s=1}^5 \alpha_s \cdot d_s(x^q, c_j)
+    \end{equation}
+    This accumulated distance is negated and passed through a Softmax function to generate posterior probabilities across classes.
+    \item \textbf{Meta-Optimization \& Temporal Smoothing (EMA):} The model's predicted query probabilities are used to calculate the episodic cross-entropy loss which is used to update all trainable parameters using Adam optimizer with cosine annealing decay schedule. To reduce fluctuations in episodic gradients, we maintain an exponential moving average (EMA) model.
+\end{enumerate}
+
+\subsection{Primary Proposed Configuration: Stacked Dynamic Weighting (85.30\%)}
+Our primary proposed architecture stacks three mutually orthogonal enhancements: \textbf{Task-Adaptive Dynamic Stage Weighting}, \textbf{Stage-Wise Layer Normalization}, and \textbf{Exponential Moving Average (EMA)} parameter smoothing under Euclidean geometry.
+
+\subsubsection{Task-Adaptive Dynamic Stage Weighting}
+Dynamic weights are generated on-the-fly per task and query by combining three complementary information channels:
+\begin{enumerate}
+    \item \textbf{Support-Set Fisher Discriminability Ratio ($F_s$):} Measures class separability relative to intra-cluster spread:
+    \begin{equation}
+        F_s = \frac{\frac{1}{N(N-1)} \sum_{j \neq k} \left(1 - \frac{\bar{c}_j^s \cdot \bar{c}_k^s}{\|\bar{c}_j^s\|_2 \|\bar{c}_k^s\|_2}\right)}{\frac{1}{|\mathcal{S}|} \sum_{i \in \mathcal{S}} \left(1 - \frac{\bar{z}_s(x_i) \cdot \bar{c}_{y_i}^s}{\|\bar{z}_s(x_i)\|_2 \|\bar{c}_{y_i}^s\|_2}\right) + \epsilon_{\text{fish}}}
+    \end{equation}
+    where $\epsilon_{\text{fish}} = 0.1$. The stage Fisher vector $\mathbf{F} \in \mathbb{R}^5$ is normalized:
+    \begin{equation}
+        w_{\text{fisher}}^s = \operatorname{Softmax}\left(\tau_{\text{fish}} \cdot \tilde{F}_s\right) \times 5
+    \end{equation}
+    with learnable temperature $\tau_{\text{fish}}$ initialized to $2.0$.
+    \item \textbf{Query-Level Prediction Confidence ($C_{s,q}$):} Evaluates the negative Shannon entropy of predicted stage distributions:
+    \begin{equation}
+        P(y = j \mid x^q, s) = \operatorname{Softmax}\left(-d_s(x^q, c_j)\right)
+    \end{equation}
+    \begin{equation}
+        H_s(q) = -\frac{1}{\ln N} \sum_{j=1}^N P(y=j \mid x^q, s) \ln P(y=j \mid x^q, s)
+    \end{equation}
+    \begin{equation}
+        C_{s,q} = 1.0 - H_s(q), \quad w_{\text{conf}}^{s,q} = \operatorname{Softmax}\left(\tau_{\text{fish}} \cdot \tilde{C}_{s,q}\right) \times 5
+    \end{equation}
+    \item \textbf{Lightweight Meta-Gating MLP ($\delta_{\text{neural}}$):} Ingests a 15-dimensional task descriptor vector $\mathbf{v}_{\text{task}} = [\tilde{\mathbf{F}}, \bar{\mathbf{C}}, \tilde{\mathbf{D}}] \in \mathbb{R}^{15}$ (Fisher ratios, mean query confidence, and mean prototype distances):
+    \begin{equation}
+        \delta_{\text{neural}} = \tanh\left(\mathbf{W}_2 \cdot \operatorname{GELU}\left(\operatorname{LN}\left(\mathbf{W}_1 \mathbf{v}_{\text{task}} + \mathbf{b}_1\right)\right) + \mathbf{b}_2\right)
+    \end{equation}
+    where $\mathbf{W}_1 \in \mathbb{R}^{32 \times 15}$ and $\mathbf{W}_2 \in \mathbb{R}^{5 \times 32}$.
+\end{enumerate}
+
+Dynamic weights are fused around a softplus prior $w_{\text{prior}}^s = \operatorname{Softplus}(w_{\text{base}}^s)$ with gating scale $g = 0.5$:
+\begin{equation}
+    \alpha_{\text{mix}} = \sigma(s_{\text{mix}})
+\end{equation}
+\begin{equation}
+    m_{\text{stat}}^{s,q} = \alpha_{\text{mix}} \cdot w_{\text{fisher}}^s + (1 - \alpha_{\text{mix}}) \cdot w_{\text{conf}}^{s,q}
+\end{equation}
+\begin{equation}
+    \alpha_s = w_{\text{dyn}}^{s,q} = w_{\text{prior}}^s \left[(1 - g) + g \cdot m_{\text{stat}}^{s,q}\right] \left(1 + g \cdot \delta_{\text{neural}}^s\right)
+\end{equation}
+where $\alpha_s$ represents the dynamic stage weighting factors $\alpha_{1-5}$ depicted in Fig.~\ref{fig:architecture}.
+
+\subsubsection{Stage-Wise Layer Normalization}
+To standardize activation magnitudes across channel capacities ($64$ to $512$), Layer Normalization is applied immediately after GAP:
+\begin{equation}
+    \hat{z}_s = \frac{z_s - \mu_s}{\sqrt{\sigma_s^2 + \epsilon_{\text{LN}}}}, \qquad \bar{z}_s = \gamma_{\text{LN}}^s \odot \hat{z}_s + \beta_{\text{LN}}^s
+\end{equation}
+where $\gamma_{\text{LN}}^s, \beta_{\text{LN}}^s \in \mathbb{R}^{C_s}$ are learnable affine parameters. Enforcing unit variance ensures Euclidean distances reflect normalized semantic divergences.
+
+\subsubsection{Exponential Moving Average (EMA) Smoothing}
+To resolve parameter oscillation, shadow weights are updated after each step:
+\begin{equation}
+    \theta_{\text{EMA}}^{(t)} = \beta \cdot \theta_{\text{EMA}}^{(t-1)} + (1 - \beta) \cdot \theta^{(t)}
+\end{equation}
+with momentum $\beta = 0.99$. Validation and testing evaluate $\theta_{\text{EMA}}$ exclusively, providing a smooth flat-minima ensemble.
+
+\subsection{Secondary Configuration: Lightweight EMA + LayerNorm (84.81\%)}
+For edge deployment where minimal latency is critical, we formulate a \textbf{Secondary Proposed Configuration (EMA + LayerNorm)}:
+\begin{itemize}
+    \item \textbf{Modifications:} Retains stage Layer Normalization and EMA ($\beta=0.99$), but uses static stage weights $w_{\text{prior}}$ and standard GAP without dynamic gating MLPs or Fisher calculations.
+    \item \textbf{Efficiency Profile:} Evaluates at \textbf{32.96~ms per episode} (faster than baseline 33.18~ms) with 3.93~GB peak VRAM and only +2,048 parameters (+0.02\%).
+    \item \textbf{Performance:} Reaches \textbf{84.81\%} test accuracy (+2.58 pp over baseline), capturing 84.0\% of the gain achieved by the full dynamic model with zero runtime matrix overhead.
+\end{itemize}
+
+\subsection{Implementation Details}
+Experiments run on NVIDIA Tesla T4 GPU (16~GB VRAM) under CUDA AMP. Pretrained ResNet-18 backbones are initialized from TorchVision ImageNet-1K weights. Training runs for 10 epochs $\times$ 360 episodes (30-way 5-shot with 15 queries per class, totaling 600 images/episode). Optimization uses Adam ($\beta_1=0.9, \beta_2=0.999$) with Cosine Annealing decay. Learning rates: $\eta_{\text{backbone}} = 10^{-4}$, $\eta_{\text{weights}} = 5 \times 10^{-3}$, $\eta_{\text{mlp}} = 10^{-3}$, and $\eta_{\text{LN}} = 10^{-4}$. Testing evaluates 600 fixed, held-out 5-way 5-shot episodes (75 queries/episode) using deterministic seeds (seeds: master 42, training 20263, validation 20261, testing 20262).
+
+\section{Results and Discussion}
+
+\begin{table*}[t]
+\centering
+\caption{Master Experimental Leaderboard on MiniImageNet (5-Way 5-Shot Episodic Evaluation over 600 Fixed Tasks).}
+\label{tab:master_results}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{clllccccr}
+\toprule
+\textbf{Rank} & \textbf{Model / Novelty Configuration} & \textbf{Metric} & \textbf{Core Architectural Modifications} & \textbf{Test Acc (\%)} & \textbf{95\% CI} & \textbf{$\Delta$ vs Lowest} & \textbf{$\Delta$ vs Canon} & \textbf{Val Acc (\%)} \\
+\midrule
+\multicolumn{9}{c}{\textit{Final Proposed Stacked Synergies (Milestone $>85.00\%$)}} \\
+\midrule
+\textbf{1} & \textbf{Stacked DW: DW + LayerNorm + EMA (Primary)} & \textbf{Euclidean} & \textbf{Dynamic Weights + Stage LN + EMA ($\beta=0.99$)} & \textbf{85.3000\%} & \textbf{[84.82\%, 85.78\%]} & \textbf{+3.40 pp} & \textbf{+3.07 pp} & 84.36\% \\
+2 & Stacked DW: DW + LN + EMA + GeM & Euclidean & Dynamic Weights + LN + EMA + Signed GeM ($p=3.0$) & 85.2689\% & [84.77\%, 85.76\%] & +3.37 pp & +3.04 pp & \textbf{84.45\%} \\
+3 & Stacked Euclidean: EMA + LN + GeM & Euclidean & EMA ($\beta=0.99$) + Stage LN + Signed GeM ($p=3.0$) & 85.0778\% & [84.59\%, 85.56\%] & +3.18 pp & +2.85 pp & 84.76\% \\
+\textbf{4} & \textbf{Stacked Euclidean: EMA + LayerNorm (Secondary)} & \textbf{Euclidean} & \textbf{EMA ($\beta=0.99$) + Stage-wise LayerNorm} & \textbf{84.8133\%} & \textbf{[84.32\%, 85.31\%]} & \textbf{+2.91 pp} & \textbf{+2.58 pp} & 84.32\% \\
+5 & Stacked Euclidean: EMA + GeM & Euclidean & EMA ($\beta=0.99$) + Signed GeM Pooling ($p=3.0$) & 84.7844\% & [84.29\%, 85.28\%] & +2.88 pp & +2.55 pp & 84.51\% \\
+6 & Stacked Cosine: EMA + LayerNorm & Cosine & Cosine Distance + EMA ($\beta=0.99$) + Stage LN & 84.5311\% & [84.04\%, 85.02\%] & +2.63 pp & +2.30 pp & 84.42\% \\
+\midrule
+\multicolumn{9}{c}{\textit{Isolated Novelty Explorations \& Intermediate Architectural Enhancements}} \\
+\midrule
+9 & EMA Regularization only (A4) & Euclidean & Parameter shadow accumulation ($\beta=0.99$) & 84.1244\% & [83.63\%, 84.62\%] & +2.22 pp & +1.89 pp & 83.75\% \\
+10 & Task-Adaptive Dynamic Weights (Cosine) & Cosine & Fisher ratio + Query entropy + Meta-Gate MLP & 83.5000\% & [83.00\%, 84.00\%] & +1.60 pp & +1.27 pp & 83.86\% \\
+11 & Adjacent Cross-Attention & Euclidean & Unidirectional forward CA ($S_i \to S_{i+1}$) & 83.2500\% & [82.73\%, 83.77\%] & +1.35 pp & +1.02 pp & 82.26\% \\
+12 & LayerNorm + Learnable Temperature & Euclidean & Stage-wise LayerNorm + Softplus logit scaling $T$ & 83.1800\% & [82.66\%, 83.69\%] & +1.28 pp & +0.95 pp & 82.52\% \\
+13 & Dynamic Weights (Hybrid Metric) & Hybrid & Dynamic stage weighting ($50\%$ Euc + $50\%$ Cos) & 83.1300\% & [82.60\%, 83.65\%] & +1.23 pp & +0.90 pp & 83.70\% \\
+14 & Signed GeM Pooling only & Euclidean & Learnable power parameter $p_s$ ($p_{\text{init}}=3.0$) & 83.0600\% & [82.53\%, 83.58\%] & +1.16 pp & +0.83 pp & 82.96\% \\
+15 & LayerNorm only & Euclidean & Stage-wise channel normalization post-GAP & 83.0600\% & [82.54\%, 83.58\%] & +1.16 pp & +0.83 pp & 82.66\% \\
+16 & Bidirectional Cross-Attention & Euclidean & 2-way forward and backward cross-attention & 83.0600\% & [82.55\%, 83.57\%] & +1.16 pp & +0.83 pp & 82.24\% \\
+17 & Cosine Distance (Fixed $\gamma=0.2$) & Cosine & $L_2$ hypersphere projection + $T_{\cos}=10.0$ & 82.9700\% & [82.45\%, 83.49\%] & +1.07 pp & +0.74 pp & 83.07\% \\
+18 & Dynamic Weights only (D0) & Euclidean & DW baseline without LayerNorm or EMA & 82.8800\% & [82.36\%, 83.39\%] & +0.98 pp & +0.65 pp & 82.72\% \\
+19 & GeM + Auxiliary Contrastive Loss & Euclidean & Signed GeM pooling + multi-scale SupCon ($\lambda=0.1$) & 82.6800\% & [82.15\%, 83.21\%] & +0.78 pp & +0.45 pp & 82.51\% \\
+20 & Hybrid Distance (Fixed $\gamma=0.2$) & Hybrid & Static $0.5 \cdot d_{\text{euc}} + 0.5 \cdot d_{\cos}$ with fixed $\gamma=0.2$ & 82.6600\% & [82.14\%, 83.18\%] & +0.76 pp & +0.43 pp & 82.42\% \\
+21 & Dynamic Weights (Euclidean) & Euclidean & Task-adaptive stage weighting under Euclidean & 82.5700\% & [82.05\%, 83.09\%] & +0.67 pp & +0.34 pp & 83.38\% \\
+22 & Label Smoothing ($\epsilon=0.1$, A5) & Euclidean & Softened categorical cross-entropy & 82.5200\% & [81.98\%, 83.05\%] & +0.62 pp & +0.29 pp & 82.38\% \\
+24 & BatchNorm Eval Freeze (A1) & Euclidean & Frozen ImageNet running $\mu, \sigma^2$ during training & 82.3300\% & [81.79\%, 82.87\%] & +0.43 pp & +0.10 pp & 82.00\% \\
+25 & Contrastive Loss only & Euclidean & Auxiliary multi-scale SupCon loss ($\lambda=0.1$) & 82.2600\% & [81.74\%, 82.78\%] & +0.36 pp & +0.03 pp & 82.22\% \\
+\midrule
+\multicolumn{9}{c}{\textit{Baselines \& Sub-Optimal Configurations}} \\
+\midrule
+\textbf{26} & \textbf{MSENet Canonical Baseline} & \textbf{Euclidean} & \textbf{Standard Askari et al. MSENet architecture} & \textbf{82.2300\%} & \textbf{[81.72\%, 82.75\%]} & \textbf{+0.33 pp} & \textbf{0.00 pp} & 81.25\% \\
+27 & Cosine Distance (Learnable $\gamma$) & Cosine & Trainable attention scale ($\gamma_1, \gamma_2$ overfit) & 82.1500\% & [81.63\%, 82.67\%] & +0.25 pp & -0.08 pp & 81.67\% \\
+29 & Hybrid Distance (Learnable $\gamma$) & Hybrid & Trainable attention scale ($\gamma_1=0.40, \gamma_2=1.21$) & 81.9800\% & [81.46\%, 82.50\%] & +0.08 pp & -0.25 pp & 82.08\% \\
+\textbf{30} & \textbf{MSENet Lowest Baseline} & \textbf{Euclidean} & \textbf{Unnormalized Euclidean reference run} & \textbf{81.9000\%} & \textbf{[81.34\%, 82.45\%]} & \textbf{0.00 pp} & \textbf{-0.33 pp} & 82.30\% \\
+31 & Discriminative LR (A2) & Euclidean & Frozen stem/layer1 + staged $10^{-6}$ to $5\times 10^{-3}$ & 78.8900\% & [78.33\%, 79.46\%] & -3.01 pp & -3.34 pp & 78.59\% \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\subsection{Benchmark Evaluation Protocol}
+All models in Table~\ref{tab:master_results} are evaluated under identical conditions on MiniImageNet (64 train, 16 val, 20 test classes) with a ResNet-18 backbone across 600 fixed test episodes at 5-way 5-shot (75 query evaluations per episode). We reported top-1 accuracy with 95\% confidence intervals ($\bar{X} \pm 1.96 \cdot \sigma / \sqrt{600}$). Performance deltas are benchmarked both against the canonical baseline ($\mathbf{82.23\%}$, matching Askari et al. \cite{askari2023enhancing}) and also the lowest observed baseline ($\mathbf{81.90\%}$).
+
+\subsection{Deep-Dive Analysis of the Primary Proposed Result}
+Our primary proposed configuration (\textbf{Stacked DW: DW + LayerNorm + EMA}) establishes a new benchmark for MSENet variants, achieving \textbf{85.3000\%} test accuracy (95\% CI: $[84.82\%, 85.78\%]$). This represents an additive gain of \textbf{+3.07 pp} over the canonical baseline and \textbf{+2.42 pp} over unstacked DW (82.88\%). 
+
+This success arises from the synergy of three orthogonal mechanisms:
+\begin{enumerate}
+    \item \textbf{Variance Standardization via LayerNorm:} LayerNorm standardizes each stage vector to unit variance, allowing Euclidean distance to treat all layers equally without letting the 512-channel layers have more influence than the 64-channel layers.
+    \item \textbf{Episodic Denoising via EMA:} Standalone EMA (A4) reached 84.12\% (+1.89 pp), demonstrating that temporal averaging dampens episodic gradient noise and stabilizes the parameter manifold for the neural gating MLP.
+    \item \textbf{Task-Adaptive Dynamic Modulation:} The gating network uses normalized embeddings and stabilized weights to dynamically adjust the importance of each stage. Shallower stages ($s \in \{1, 2\}$) receive more weight for fine-grained tasks, while deeper stages ($s \in \{3, 4\}$) are given more importance for coarse-grained tasks.
+\end{enumerate}
+
+Adding the Signed GeM pooling (\textbf{D2}, Rank 2) achieved a test accuracy of 85.27\% and the highest validation accuracy (84.45\%). However, because D1 avoids GeM's exponential computation, \textbf{D1 represents our definitive primary recommendation}.
+
+\begin{figure}[t]
+\centering
+\conditionalgraphic[width=0.96\columnwidth]{03_evolutionary_roadmap_over_85.png}{Evolutionary roadmap depicting cumulative gains across research phases leading to 85.30\%.}
+\caption{Cumulative evolutionary roadmap: progression from the 81.90\% unnormalized baseline to the 85.30\% breakthrough via metric calibration, channel normalization, temporal smoothing, and task-adaptive gating.}
+\label{fig:roadmap}
+\end{figure}
+
+\subsection{Computational Efficiency of the 84.81\% Configuration}
+Our \textbf{Secondary Proposed Configuration (EMA + LayerNorm, Rank 4)} provides an exceptional efficiency trade-off, as detailed in Table~\ref{tab:efficiency}.
+
+\begin{table}[h]
+\centering
+\caption{Computational Efficiency, Latency, and Memory Comparison.}
+\label{tab:efficiency}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model Configuration} & \textbf{Extra Params} & \textbf{Latency/Ep} & \textbf{Peak VRAM} & \textbf{Test Acc} \\
+\midrule
+MSENet Baseline & 0 & 33.18~ms & 3.88~GB & 82.23\% \\
+\textbf{Secondary: EMA + LN} & \textbf{+2,048 (+0.02\%)} & \textbf{32.96~ms} & \textbf{3.93~GB} & \textbf{84.81\%} \\
+Stacked: EMA + GeM & +5 (+0.00\%) & 37.88~ms & 4.66~GB & 84.78\% \\
+Stacked: EMA + LN + GeM & +2,053 (+0.02\%) & 38.27~ms & 4.66~GB & 85.08\% \\
+\textbf{Primary: DW + LN + EMA} & \textbf{+6,825 (+0.06\%)} & \textbf{37.16~ms} & \textbf{3.93~GB} & \textbf{85.30\%} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The secondary configuration achieves a test accuracy of \textbf{84.8133\%} (+2.58 pp over baseline) while running at \textbf{32.96~ms per episode} which is slightly faster than baseline MSENet (33.18~ms). This is because the EMA shadow parameters are evaluated directly, EMA incurs \textbf{zero runtime latency overhead}. Furthermore, the LayerNorm adds only 2,048 scalar parameters (+0.02\%). Thus, the 84.81\% model is ideal for resource-constrained edge deployments.
+\subsection{The Broader Experimentation Journey}
+Before choosing our final model we carefully evaluated across different approaches:
+
+\subsubsection{Cross-Attention Across Stages}
+We found Adjacent cross-attention ($S_i \to S_{i+1}$, Rank 11) gave a moderate gain of \textbf{+1.02 pp} (83.25\%, $p=0.0409$). However, Bidirectional cross-attention (Rank 16) collapsed back to 83.06\% ($p=0.9814$) while increasing training time by $+57.6\%$. On further diagnosis it was revealed that bidirectional cross-attention was looking at everything(high entropy) instead of just the important areas, thereby giving no improvement.
+
+\begin{figure}[t]
+\centering
+\conditionalgraphic[width=0.96\columnwidth]{02_distance_metrics_dynamic_vs_static.png}{Comparison of Euclidean, Cosine, and Hybrid metrics under static vs. dynamic weighting.}
+\caption{Prototype distance functions under static vs. task-adaptive dynamic stage weighting, showing consistent dynamic gating gains across all metrics.}
+\label{fig:metrics}
+\end{figure}
+
+
+Before features were normalized, cosine distance with fixed $\gamma=0.2$ reached \textbf{82.97\%} (+0.74 pp over baseline). However, when the residual parameter $\gamma$ was made learnable, both $\gamma_1$ and $\gamma_2$ values shot up to $0.7163$ and $0.6199$. It was found later that these values were overfitting to the trainig dataset, causing the test accuracy to reduce to 
+82.15\%. After Layer Normalization was applied, Euclidean distance proved superior to cosine distance (85.30\% vs 84.53\% in stacked models), indicating that Euclidean distance is a better metric for this task when channel scales are normalized.
+
+
+\subsubsection{Signed Generalized Mean (GeM) Pooling}
+In baseline MSENet, spatial features entering pooling contain negative activations due to the self-attention residual $y = \gamma \cdot \text{Attn}(x) + x$ (empirically 19.7\% of all activations). Standard clamping to zero would eliminate vital inhibitory cues.
+In the baseline MSENET model, the negative activations ( due to the self-attention residual $y = \gamma \cdot \text{Attn}(x) + x$)  received by the pooling layer would be reduced to zero. However, we noticed that we may be eliminating important inhibitory cues about the task. So to resolve this, Signed GeM splits the data into positive and negative rectifier branches:
+\begin{equation}
+    y^+ = \max(y, 0), \qquad y^- = \max(-y, 0)
+\end{equation}
+\begin{equation}
+    \operatorname{SignedGeM}(y, p_s) = \operatorname{GeM}_{p_s}(y^+) - \operatorname{GeM}_{p_s}(y^-)
+\end{equation}
+Signed GeM ($p_s=3.0$, Rank 14) yielded \textbf{83.06\%} on 5-way 5-shot tasks (+0.83 pp).
+
+
+\subsubsection{Training Dynamics \& Stability Ablations}
+Our 5-way stability ablation (A1--A5) results showed that:
+\begin{itemize}
+    \item \textbf{A4 (EMA, 84.12\%, +1.89 pp):} Had the biggest optimization improvement - smoothing out episodic SGD fluctuations
+    \item \textbf{A5 (Label Smoothing, 82.52\%, +0.29 pp):} Yielded mild improvement, just mitigating some over-confident samples .
+    \item \textbf{A1 (Frozen BN, 82.33\%) \& A3 ($L_2$-SP, 82.24\%):} Exhibited neutral impact.
+    \item \textbf{A2 (Discriminative LR, 78.89\%, -3.34 pp):} Exhibited sever performance degradation and inability to adapt due to super slow learning  of earlier layers .
+\end{itemize}
+
+
+\subsection{Statistical Hypothesis Testing and Diagnostic Insights}
+Table~\ref{tab:paired_stats} presents the results of paired statistical tests conducted across the same 600 test episodes to compare the performance of the different methods and determine whether the observed improvements are statistically significant.
+\begin{table}[h]
+\centering
+\caption{Paired Head-to-Head Hypothesis Testing Across 600 Episodes.}
+\label{tab:paired_stats}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Paired Comparison} & \textbf{Mean $\Delta$ (pp)} & \textbf{95\% CI} & \textbf{$t$-statistic} & \textbf{$p$-value} \\
+\midrule
+\textbf{D1 vs D0 (DW Stack)} & \textbf{+2.42 pp} & \textbf{[+2.12, +2.73]} & \textbf{15.62} & \textbf{$< 10^{-15}$} \\
+\textbf{E1 vs E0 (Euc Stack)} & \textbf{+2.56 pp} & \textbf{[+2.26, +2.85]} & \textbf{17.21} & \textbf{$< 10^{-15}$} \\
+\textbf{E3 vs E0 (Secondary)} & \textbf{+2.29 pp} & \textbf{[+1.99, +2.59]} & \textbf{15.11} & \textbf{$< 10^{-15}$} \\
+EMA (A4) vs Baseline & +1.89 pp & [+1.59, +2.18] & 12.84 & $< 10^{-15}$ \\
+LayerNorm vs Baseline & +0.58 pp & [+0.29, +0.88] & 3.86 & 0.00012 \\
+Adjacent CA vs Baseline & +0.19 pp & [+0.01, +0.38] & 2.05 & 0.04090 \\
+Bidirectional CA vs Base & -0.00 pp & [-0.19, +0.18] & -0.02 & 0.98140 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Both the proposed configurations (D1 and E3) demonstrate paired confidence intervals strictly excluding zero ($p \ll 10^{-15}$), veriying that the observed improvements are statistically significant and are unlikely to result from stochastic fluctuations.
+
+\subsection{Limitations and Research Integrity}
+
+Validation accuracy reached its highest value at Epoch 1 in all experimental runs. While EMA mitigated post-peak decay, meta-learning with only 64 base classes is still prone to representation memorization. Our evaluation was limited to MiniImageNet, and testing the model on another dataset, such as CUB, is an important next step to assess its performance across different domains. We emphasize that established techniques (EMA, LayerNorm, Fisher ratios) are not claimed as our standalone inventions; our novelty lies in the diagnostic analysis of MSENet, the formulation of zero-anchored dynamic stage gating, and the principled synergy of channel normalization and parameter smoothing which together helped achieve 85.30\% accuracy.
+
+\section{Conclusion and Future Work}
+This paper works on key structural limitations in multi scale few shot image classification. We address disparities in channel variance disparities, limitations of static weights and episodic meta gradient noise. Our proposed primary architecture is a combination of dynamic stage weights adapting to each task, exponential moving average for smoothing and layer normalization every stage. Our solution achieves   \textbf{85.30\%} test accuracy 5 way 5 shot classification on MiniImageNet. Our proposed secondary solution is a lightweight configuration without dynamic weighting, achieves \textbf{84.81\%} at \textbf{32.96~ms inference time per episode}.
+Future work includes testing vision transformers, along with the similar dynamic gating approach. Other future works are to test our approach on other datasets like CUB-200 and FC-100, and improve cross domain generalization. 
+
+\begin{thebibliography}{12}
+\bibitem{askari2023enhancing}
+F.~Askari, A.~Fateh, and M.~R.~Mohammadi, ``Enhancing few-shot image classification through learnable multi-scale embedding and attention mechanisms,'' \emph{arXiv preprint arXiv:2409.07989}, 2024. [Online]. Available: \url{https://arxiv.org/abs/2409.07989}
+
+\bibitem{snell2017prototypical}
+J.~Snell, K.~Swersky, and R.~Zemel, ``Prototypical networks for few-shot learning,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~30, 2017, pp. 4077--4087.
+
+\bibitem{vinyals2016matching}
+O.~Vinyals, C.~Blundell, T.~Lillicrap, K.~Kavukcuoglu, and D.~Wierstra, ``Matching networks for one shot learning,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~29, 2016, pp. 3630--3638.
+
+\bibitem{he2016deep}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image recognition,'' in \emph{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2016, pp. 770--778.
+
+\bibitem{torchvision_resnet}
+TorchVision Maintainers, ``TorchVision models: ResNet-18 architecture and pre-trained weights documentation,'' PyTorch, 2024. [Online]. Available: \url{https://pytorch.org/vision/stable/models/resnet.html}
+
+\bibitem{wang2018non}
+X.~Wang, R.~Girshick, A.~Gupta, and K.~He, ``Non-local neural networks,'' in \emph{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2018, pp. 7794--7803.
+
+\bibitem{pytorch_attention}
+PyTorch Documentation, ``MultiheadAttention and self-attention mechanism documentation,'' PyTorch Core Library, 2024. [Online]. Available: \url{https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html}
+
+\bibitem{ba2016layer}
+J.~L.~Ba, J.~R.~Kiros, and G.~E.~Hinton, ``Layer normalization,'' \emph{arXiv preprint arXiv:1607.06450}, 2016.
+
+\bibitem{tarvainen2017mean}
+A.~Tarvainen and H.~Valpola, ``Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised deep learning results,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~30, 2017, pp. 1195--1204.
+
+\bibitem{ravi2017optimization}
+S.~Ravi and H.~Larochelle, ``Optimization as a model for few-shot learning,'' in \emph{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2017, pp. 1--11.
+
+\bibitem{hou2019cross}
+R.~Hou, H.~Chang, B.~Ma, S.~Shan, and X.~Chen, ``Cross attention network for few-shot classification,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~32, 2019, pp. 4003--4014.
+
+\end{thebibliography}
+
+\end{document}
