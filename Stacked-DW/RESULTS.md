@@ -117,7 +117,7 @@ All experiments were benchmarked on a single dedicated **NVIDIA Tesla T4 GPU (16
 ### Hardware and Overhead Findings
 - **Zero Latency Penalty for LayerNorm + EMA (D1):** D1 adds only **0.05 ms** per episode over D0 (37.16 ms vs. 37.11 ms), preserving essentially identical inference throughput (~27 tasks per second).
 - **Negligible Parameter Overhead:**
-  - Dynamic Weight module adds 4,772 parameters over vanilla MSENet.
+  - Dynamic Weight module adds roughly 466 parameters over vanilla MSENet (11,618,586 vs. 11,618,120).
   - LayerNorm introduces **2,048 parameters** ($2 \times (64+64+128+256+512)$ affine weights $\gamma$ and biases $\beta$).
   - GeM pooling introduces only **5 scalar power parameters** ($p_1, \dots, p_5$).
   - The complete D2 network requires only 11,620,639 parameters, an imperceptible +0.018% overhead compared to D0.

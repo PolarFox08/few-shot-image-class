@@ -120,11 +120,11 @@ All metrics were benchmarked on a single **NVIDIA Tesla T4 GPU (16 GB)** using P
 
 | Metric | Inference Time / Episode | Full Test Time (600 Tasks) | Throughput (Tasks/sec) | Peak GPU VRAM | Parameter Overhead |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **Euclidean** | 89.29 ms | 53.57 s | 11.20 tasks/s | 0.280 GB | +4,772 params (+0.04%) |
-| **Cosine** | 89.62 ms | 53.77 s | 11.16 tasks/s | 0.368 GB | +4,773 params (+0.04%) |
-| **Hybrid** | 93.76 ms | 56.26 s | 10.66 tasks/s | 0.458 GB | +4,773 params (+0.04%) |
+| **Euclidean** | 89.29 ms | 53.57 s | 11.20 tasks/s | 0.280 GB | +467 params (+0.004%) |
+| **Cosine** | 89.62 ms | 53.77 s | 11.16 tasks/s | 0.368 GB | +467 params (+0.004%) |
+| **Hybrid** | 93.76 ms | 56.26 s | 10.66 tasks/s | 0.458 GB | +467 params (+0.004%) |
 
-- **Zero Latency Penalty:** The entire dynamic weighting module adds less than **0.33 ms** per episode compared to static MSENet.
+- **Latency:** These runs only include dynamic-weighting models (no static run under the same timing setup), so the module's latency overhead is not isolated here. See the Stacked-DW results for a like-for-like timing (D0 DW-only: 37.1 ms/episode vs. 32--33 ms/episode for static baselines in other studies; different runs, so only indicative).
 - **Ultra-Compact Footprint:** Peak memory usage remains strictly below **0.5 GB** during full 5-way 5-shot testing (with 15 query images per class, totaling 75 queries per task).
 
 ---
