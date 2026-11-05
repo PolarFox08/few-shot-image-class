@@ -1,0 +1,2 @@
+experiment,description,distance_metric,use_layernorm,use_ema,use_gem,test_acc_5way5shot,test_acc_ci95,test_acc_std,test_loss,best_val_acc,final_val_acc,final_val_loss,best_epoch,train_time_min,wall_time_min,n_total_params,n_trainable_params,peak_train_gpu_mb,peak_infer_gpu_mb,infer_ms_per_episode
+DW_LN_EMA,DW + LayerNorm + EMA,euclidean,True,True,False,85.3289,0.487333,6.0904,0.400046,84.26,78.9378,0.900828,1,20.9396,25.499,11620634,11620634,3924.92,510.882,37.9564

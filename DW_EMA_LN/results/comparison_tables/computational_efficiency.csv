@@ -1,0 +1,2 @@
+experiment,train_time_total_s,train_time_per_epoch_s,infer_ms_per_episode,n_total_params,n_trainable_params,peak_train_gpu_mb,peak_infer_gpu_mb,process_rss_gb
+DW_LN_EMA,1256.38,125.638,37.9564,11620634,11620634,3924.92,510.882,3.81575
